@@ -25,6 +25,8 @@
     color:var(--black);
     line-height:1.6;
     overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
   }
   a{color:inherit;text-decoration:none;}
   ul{list-style:none;}
@@ -113,8 +115,9 @@
   .hero h1{
     font-size:clamp(52px,10vw,128px); line-height:0.92; font-weight:900;
     opacity:0; transform:translateY(24px); animation:riseIn 1s .25s ease forwards;
+    will-change:transform, opacity;
   }
-  .hero h1 span{display:block; -webkit-text-stroke:1.5px #fff; color:transparent;}
+  .hero h1 span{display:block; -webkit-text-stroke:1.5px #fff; color:transparent; transform:translateZ(0); backface-visibility:hidden;}
   .hero .sub{
     max-width:520px; margin-top:26px; font-size:18px;
     color:rgba(255,255,255,0.72); font-weight:400;
@@ -135,7 +138,7 @@
   @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
 
   section{padding:120px 0;}
-  .reveal{opacity:0; transform:translateY(36px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal{opacity:0; transform:translateY(36px); transition:opacity .8s ease, transform .8s ease; will-change:transform, opacity;}
   .reveal.visible{opacity:1; transform:translateY(0);}
 
   /* STATS */
@@ -177,10 +180,10 @@
   .signature p{color:rgba(255,255,255,0.7); max-width:460px; font-size:15px;}
   .signature .price{font-size:34px; font-weight:800; white-space:nowrap;}
 
-  table.price-table{width:100%; border-collapse:collapse; background:var(--white);}
+  table.price-table{width:100%; border-collapse:collapse; background:var(--white); table-layout:fixed;}
   table.price-table td{padding:22px 24px; font-size:16px; border-bottom:1px solid var(--line-dark);}
-  table.price-table tr td:first-child{font-weight:600;}
-  table.price-table tr td:last-child{text-align:right; font-weight:800; font-size:18px; white-space:nowrap;}
+  table.price-table tr td:first-child{font-weight:600; width:68%;}
+  table.price-table tr td:last-child{text-align:right; font-weight:800; font-size:18px; white-space:nowrap; width:32%;}
   table.price-table tr:hover td{background:rgba(0,0,0,0.02);}
   .price-note{margin-top:26px; font-size:14px; color:var(--grey); display:flex; gap:30px; flex-wrap:wrap;}
   .price-note strong{color:var(--black);}
@@ -188,7 +191,7 @@
   /* PROCESS */
   .process{background:var(--white);}
   .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:30px; margin-top:50px;}
-  .step .num{font-size:44px; font-weight:900; -webkit-text-stroke:1.5px var(--black); color:transparent; display:block; margin-bottom:16px;}
+  .step .num{font-size:44px; font-weight:900; -webkit-text-stroke:1.5px var(--black); color:transparent; display:block; margin-bottom:16px; transform:translateZ(0); backface-visibility:hidden;}
   .step h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em;}
   .step p{font-size:14px; color:#555;}
   @media(max-width:900px){.steps{grid-template-columns:1fr 1fr;}}
@@ -235,6 +238,30 @@
     padding:34px 28px; font-size:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; letter-spacing:0.05em;
   }
   footer strong{color:#fff;}
+
+  /* MOBILE — rein in oversized fixed-px type and spacing on small phones */
+  @media(max-width:600px){
+    section{padding:72px 0;}
+    .hero{padding:120px 20px 56px;}
+    .wrap{padding:0 20px;}
+    .hero h1{font-size:clamp(30px,10vw,52px); word-break:keep-all;}
+    .hero .sub{font-size:16px;}
+    .about-grid .lead{font-size:20px;}
+    .about-grid p{font-size:16px;}
+    .feature{padding:32px 24px;}
+    .signature{padding:30px 24px;}
+    .signature h3{font-size:22px;}
+    .signature .price{font-size:26px;}
+    table.price-table td{padding:16px 14px; font-size:14px;}
+    table.price-table tr td:last-child{font-size:16px;}
+    .step .num{font-size:32px;}
+    .step h3{font-size:14px;}
+    .rev-card{padding:26px 22px; min-height:auto;}
+    .rev-card .quote-mark{font-size:30px;}
+    .contact-secondary{margin-top:56px; padding:36px 0;}
+    .contact-final{padding:100px 20px 0;}
+    footer{padding:26px 20px; font-size:11px;}
+  }
 </style>
 </head>
 <body>
@@ -282,7 +309,7 @@
     </div>
     <div class="stat">
       <span class="stat-num" data-target="1">0</span>
-      <p>такой мастер в городе</p>
+      <p>мужчина мастер в Сочи</p>
     </div>
     <div class="stat">
       <span class="stat-num">1,5–2</span>
@@ -479,11 +506,15 @@
   const observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        const el = entry.target;
+        el.classList.add('visible');
+        el.addEventListener('transitionend', ()=>{ el.style.willChange = 'auto'; }, {once:true});
+        observer.unobserve(el);
       }
     });
   },{threshold:0.12});
+  document.querySelector('.hero h1')?.addEventListener('animationend', function(){ this.style.willChange = 'auto'; }, {once:true});
+
   document.querySelectorAll('.reveal').forEach((el,i)=>{
     el.style.transitionDelay = (i % 6) * 0.06 + 's';
     observer.observe(el);
@@ -532,6 +563,5 @@
     });
   }
 </script>
-
 </body>
 </html>
