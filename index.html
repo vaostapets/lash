@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MR. LASH BOSS — Наращивание ресниц, Сочи</title>
-<meta name="description" content="Олег — мастер по наращиванию ресниц в Сочи. Психолог по образованию, работает один, слушает и подбирает образ под вас. Мокрый эффект, классика, 3D. Запись в Telegram.">
+<title>Наращивание ресниц в Сочи — Mr. Lash Boss</title>
+<meta name="description" content="Наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, классика, объемы, мокрый эффект, LED-технология. Мастер Олег / Mr. Lash Boss.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
     --white:#ffffff;
     --off:#f4f3f1;
     --grey:#8a8a8a;
+    --silver:#c9cdd2;
     --line: rgba(255,255,255,0.14);
     --line-dark: rgba(0,0,0,0.1);
   }
@@ -31,6 +32,7 @@
   a{color:inherit;text-decoration:none;}
   ul{list-style:none;}
   img{max-width:100%;display:block;}
+
   .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
   .section-label{
     font-size:12px;
@@ -49,15 +51,10 @@
   h2{font-size:clamp(24px,3.6vw,38px); margin-bottom:20px;}
   p{font-size:15px; color:inherit;}
 
-  /* CUSTOM CURSOR */
-  html.has-cursor, html.has-cursor body{cursor:none;}
-  .cursor-dot{position:fixed; top:0; left:0; width:7px; height:7px; background:#fff; border-radius:50%;
-    pointer-events:none; z-index:9999; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0; transition:opacity .3s;}
-  .cursor-ring{position:fixed; top:0; left:0; width:38px; height:38px; border:1px solid #fff; border-radius:50%;
-    pointer-events:none; z-index:9998; mix-blend-mode:difference; transform:translate(-50%,-50%); opacity:0;
-    transition:opacity .3s, width .25s ease, height .25s ease;}
-  html.has-cursor .cursor-dot, html.has-cursor .cursor-ring{opacity:1;}
-  .cursor-ring.hovering{width:64px; height:64px;}
+  section{padding:100px 0;}
+  section.dark{background:var(--black); color:var(--white);}
+  section.light{background:var(--white); color:var(--black);}
+  section.off{background:var(--off); color:var(--black);}
 
   .btn{
     display:inline-flex;
@@ -75,493 +72,50 @@
   }
   .btn.light{color:var(--white);}
   .btn.light:hover{background:var(--white); color:var(--black);}
-  .btn.solid{background:var(--white); color:var(--black); border-color:var(--white);}
-  .btn.solid:hover{background:transparent; color:var(--white);}
-  .btn svg{width:14px;height:14px;transition:transform .35s ease;}
-  .btn:hover svg{transform:translateX(4px);}
+  .btn.dark{color:var(--black);}
+  .btn.dark:hover{background:var(--black); color:var(--white);}
+  .btn.silver:hover{border-color:var(--silver); color:var(--silver);}
 
-  /* NAV */
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:22px 28px;
-    mix-blend-mode:difference;
-    color:#fff;
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.is-visible{opacity:1; transform:none;}
+
+  .plate{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:24px; min-height:160px;
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey);
+    border:1px solid var(--line-dark);
   }
-  nav .logo{font-weight:800; font-size:15px; letter-spacing:0.14em;}
-  nav ul{display:flex; gap:34px;}
-  nav a{font-size:11px; letter-spacing:0.14em; text-transform:uppercase; font-weight:600;}
-  @media(max-width:760px){ nav ul{display:none;} }
-
-  /* HERO */
-  .hero{
-    min-height:100svh; background:var(--black); color:var(--white);
-    display:flex; flex-direction:column; justify-content:center;
-    position:relative; padding:140px 28px 80px; overflow:hidden;
+  .plate.on-dark{
+    border-color:var(--line); color:rgba(255,255,255,0.55);
+    background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
   }
-  .hero::before{
-    content:""; position:absolute; inset:0;
-    background:
-      radial-gradient(circle at 82% 18%, rgba(255,255,255,0.09), transparent 45%),
-      radial-gradient(circle at 10% 85%, rgba(255,255,255,0.06), transparent 40%);
-    pointer-events:none;
+  .plate.on-light{
+    background:linear-gradient(160deg, rgba(0,0,0,0.035), rgba(0,0,0,0));
   }
-  .hero-inner{max-width:1120px; margin:0 auto; width:100%; position:relative; z-index:2;}
-  .hero .eyebrow{
-    font-size:12px; letter-spacing:0.32em; text-transform:uppercase;
-    color:rgba(255,255,255,0.55); margin-bottom:22px; font-weight:600;
-    opacity:0; transform:translateY(16px); animation:riseIn .9s .1s ease forwards;
-  }
-  .hero h1{
-    font-size:clamp(42px,8.4vw,104px); line-height:0.92; font-weight:900;
-    opacity:0; transform:translateY(24px); animation:riseIn 1s .25s ease forwards;
-    will-change:transform, opacity;
-  }
-  .hero h1 span{display:block;}
-  .hero .sub{
-    max-width:520px; margin-top:26px; font-size:16px;
-    color:rgba(255,255,255,0.72); font-weight:400;
-    opacity:0; transform:translateY(20px); animation:riseIn 1s .4s ease forwards;
-  }
-  .hero .actions{
-    margin-top:44px; display:flex; gap:18px; flex-wrap:wrap; align-items:center;
-    opacity:0; transform:translateY(20px); animation:riseIn 1s .55s ease forwards;
-  }
-  .hero .actions .note{font-size:13px; color:rgba(255,255,255,0.5);}
-  @keyframes riseIn{to{opacity:1; transform:translateY(0);}}
 
-  /* MARQUEE */
-  .marquee{background:var(--white); border-top:1px solid var(--line-dark); border-bottom:1px solid var(--line-dark); overflow:hidden; padding:16px 0;}
-  .marquee-track{display:flex; width:max-content; animation:scroll 26s linear infinite;}
-  .marquee-track span{font-size:14px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0 28px; white-space:nowrap; color:var(--black); display:flex; align-items:center; gap:28px;}
-  .marquee-track span::after{content:"•"; color:var(--grey); font-weight:400;}
-  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
-
-  section{padding:120px 0;}
-  .reveal{opacity:0; transform:translateY(36px); transition:opacity .8s ease, transform .8s ease; will-change:transform, opacity;}
-  .reveal.visible{opacity:1; transform:translateY(0);}
-
-  /* STATS */
-  .stats{padding:80px 0; background:var(--off);}
-  .stats-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; text-align:center;}
-  .stat-num{font-size:clamp(34px,5vw,58px); font-weight:900; line-height:1; display:block;}
-  .stat p{margin-top:10px; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:var(--grey); font-weight:600;}
-  @media(max-width:700px){.stats-grid{grid-template-columns:1fr; gap:44px;}}
-
-  /* ABOUT */
-  .about{background:var(--white);}
-  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:start;}
-  .about-grid p{font-size:16px; margin-bottom:18px; color:#2b2b2b;}
-  .about-grid .lead{font-size:22px; font-weight:600; line-height:1.4; color:var(--black);}
-  @media(max-width:840px){.about-grid{grid-template-columns:1fr; gap:30px;}}
-
-  .features{margin-top:90px; display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line-dark); border:1px solid var(--line-dark);}
-  .feature{background:var(--white); padding:44px 34px;}
-  .feature .num{font-size:13px; color:var(--grey); font-weight:700; letter-spacing:0.1em; margin-bottom:20px; display:block;}
-  .feature h3{font-size:19px; margin-bottom:14px; font-weight:800;}
-  .feature p{font-size:15px; color:#444;}
-  @media(max-width:840px){.features{grid-template-columns:1fr;}}
-
-  /* COMFORT STRIP */
-  .comfort{background:var(--black); color:var(--white); padding:80px 0;}
-  .comfort .section-label{color:rgba(255,255,255,0.5);}
-  .pill-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:10px;}
-  .pill{border:1px solid rgba(255,255,255,0.28); padding:12px 22px; font-size:14px; font-weight:500; border-radius:999px; color:rgba(255,255,255,0.85); transition:.3s;}
-  .pill:hover{background:#fff; color:#000; border-color:#fff;}
-  .comfort .quote{margin-top:34px; font-style:italic; font-size:15px; color:rgba(255,255,255,0.5); border-left:2px solid rgba(255,255,255,0.3); padding-left:20px;}
-
-  /* SERVICES */
-  .services{background:var(--off);}
-  .svc-top{display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:50px;}
-  .svc-top p{max-width:440px; color:#444;}
-  .signature{background:var(--black); color:var(--white); padding:46px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; gap:30px; flex-wrap:wrap;}
-  .signature .tag{font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:10px; display:block;}
-  .signature h3{font-size:26px; margin-bottom:10px;}
-  .signature p{color:rgba(255,255,255,0.7); max-width:460px; font-size:15px;}
-  .signature .price{font-size:30px; font-weight:800; white-space:nowrap;}
-
-  table.price-table{width:100%; border-collapse:collapse; background:var(--white); table-layout:fixed;}
-  table.price-table td{padding:22px 24px; font-size:18px; border-bottom:1px solid var(--line-dark);}
-  table.price-table tr td:first-child{font-weight:600; width:68%;}
-  table.price-table tr td:last-child{text-align:right; font-weight:800; font-size:20px; white-space:nowrap; width:32%;}
-  table.price-table tr:hover td{background:rgba(0,0,0,0.02);}
-  .price-note{margin-top:26px; font-size:14px; color:var(--grey); display:flex; gap:30px; flex-wrap:wrap;}
-  .price-note strong{color:var(--black);}
-
-  /* PROCESS */
-  .process{background:var(--white);}
-  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:30px; margin-top:50px;}
-  .step .num{font-size:36px; font-weight:900; -webkit-text-stroke:1.5px var(--black); color:transparent; background:none; display:block; margin-bottom:16px;}
-  .step h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em;}
-  .step p{font-size:14px; color:#555;}
-  @media(max-width:900px){.steps{grid-template-columns:1fr 1fr;}}
-  @media(max-width:520px){.steps{grid-template-columns:1fr;}}
-
-  /* GALLERY */
-  .gallery{background:var(--off);}
-  .gal-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:20px;}
-  .gal-item{aspect-ratio:3/4; background:linear-gradient(135deg,#1c1c1c,#3a3a3a); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; cursor:default; transition:transform .5s ease;}
-  .gal-item:hover{transform:scale(1.03);}
-  .gal-item span{color:rgba(255,255,255,0.55); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; text-align:center; padding:0 10px;}
-  .gal-item::after{content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 60%);}
-  .gal-item svg{width:26px;height:26px; opacity:0.5; margin-bottom:10px;}
-  .gal-item .inner{display:flex; flex-direction:column; align-items:center;}
-  @media(max-width:900px){.gal-grid{grid-template-columns:repeat(3,1fr);}}
-  @media(max-width:600px){.gal-grid{grid-template-columns:repeat(2,1fr);}}
-
-  /* REVIEWS */
-  .reviews{background:var(--black); color:var(--white);}
-  .reviews .section-label{color:rgba(255,255,255,0.5);}
-  .rev-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:40px;}
-  .rev-card{border:1px dashed rgba(255,255,255,0.25); padding:34px 28px; min-height:200px; display:flex; flex-direction:column; justify-content:space-between;}
-  .rev-card .quote-mark{font-size:32px; font-weight:900; opacity:0.3; line-height:1;}
-  .rev-card p{color:rgba(255,255,255,0.45); font-size:13px; letter-spacing:0.04em; text-transform:uppercase; margin-top:20px;}
-  @media(max-width:840px){.rev-grid{grid-template-columns:1fr;}}
-
-  /* CONTACT (merged) */
-  .contact-final{background:var(--black); color:var(--white); text-align:center; padding:140px 28px 0;}
-  .contact-final .section-label{color:rgba(255,255,255,0.5);}
-  .contact-final h2{font-size:clamp(28px,5vw,48px); margin-bottom:34px;}
-  .contact-final .cta-note{margin-top:20px; font-size:13px; color:rgba(255,255,255,0.45);}
-  .contact-secondary{
-    margin-top:100px; border-top:1px solid var(--line); padding:50px 0;
-    display:grid; grid-template-columns:1fr 1fr 1fr; gap:30px; text-align:left;
-  }
-  .contact-secondary .item dt{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.4); font-weight:700; margin-bottom:8px;}
-  .contact-secondary .item dd{font-size:15px; color:rgba(255,255,255,0.85); font-weight:500;}
-  .contact-secondary .item dd a{text-decoration:underline; text-underline-offset:3px;}
-  @media(max-width:760px){.contact-secondary{grid-template-columns:1fr; text-align:center;}}
-  .map-frame{width:100%; min-height:280px; border:0; filter:grayscale(1) invert(0.92) contrast(0.9); opacity:0.8; margin-top:10px;}
-
-  footer{
-    background:var(--black); color:rgba(255,255,255,0.45); border-top:1px solid var(--line);
-    padding:34px 28px; font-size:12px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; letter-spacing:0.05em;
-  }
-  footer strong{color:#fff;}
-
-  /* MOBILE — rein in oversized fixed-px type and spacing on small phones */
-  @media(max-width:600px){
-    section{padding:72px 0;}
-    .hero{padding:120px 20px 56px;}
-    .wrap{padding:0 20px;}
-    .hero h1{font-size:clamp(26px,9vw,42px); word-break:keep-all;}
-    .hero .sub{font-size:15px;}
-    .about-grid .lead{font-size:19px;}
-    .about-grid p{font-size:15px;}
-    .feature{padding:32px 24px;}
-    .signature{padding:30px 24px;}
-    .signature h3{font-size:21px;}
-    .signature .price{font-size:25px;}
-    table.price-table td{padding:16px 14px; font-size:16px;}
-    table.price-table tr td:last-child{font-size:18px;}
-    .step .num{font-size:30px;}
-    .step h3{font-size:14px;}
-    .rev-card{padding:26px 22px; min-height:auto;}
-    .rev-card .quote-mark{font-size:26px;}
-    .contact-secondary{margin-top:56px; padding:36px 0;}
-    .contact-final{padding:100px 20px 0;}
-    footer{padding:26px 20px; font-size:11px;}
-  }
+  /* === SECTION STYLES === */
 </style>
 </head>
 <body>
 
-<div class="cursor-ring" id="cursorRing"></div>
-<div class="cursor-dot" id="cursorDot"></div>
-
-<nav>
-  <div class="logo">MR. LASH BOSS</div>
-  <ul>
-    <li><a href="#about">Обо мне</a></li>
-    <li><a href="#services">Услуги</a></li>
-    <li><a href="#gallery">Работы</a></li>
-    <li><a href="#contact">Контакты</a></li>
-  </ul>
-</nav>
-
-<section class="hero">
-  <div class="hero-inner">
-    <span class="eyebrow">Сочи · Lash-мастер</span>
-    <h1>MR.<br><span>LASH BOSS</span></h1>
-    <p class="sub">Наращивание ресниц у мастера, к которому идут не только за ресницами. Свой почерк, честный разговор и результат, который держится по-настоящему долго.</p>
-    <div class="actions">
-      <a class="btn light" data-cursor href="https://t.me/mrlashboss" target="_blank" rel="noopener">
-        Записаться в Telegram
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
-      <span class="note">Ежедневно · 10:00–20:00</span>
-    </div>
-  </div>
-</section>
-
-<div class="marquee">
-  <div class="marquee-track">
-    <span>Мокрый эффект</span><span>Классика</span><span>1.5D</span><span>2.5D</span><span>3D</span><span>Лучи</span><span>Цветные ресницы</span>
-    <span>Мокрый эффект</span><span>Классика</span><span>1.5D</span><span>2.5D</span><span>3D</span><span>Лучи</span><span>Цветные ресницы</span>
-  </div>
-</div>
-
-<section class="stats">
-  <div class="wrap stats-grid">
-    <div class="stat">
-      <span class="stat-num" data-target="5">0</span>
-      <p>лет в профессии</p>
-    </div>
-    <div class="stat">
-      <span class="stat-num" data-target="1">0</span>
-      <p>мужчина мастер в Сочи</p>
-    </div>
-    <div class="stat">
-      <span class="stat-num">1,5–2</span>
-      <p>месяца держится результат</p>
-    </div>
-  </div>
-</section>
-
-<section class="about" id="about">
+<header class="site-header">
   <div class="wrap">
-    <span class="section-label reveal">Обо мне</span>
-    <div class="about-grid">
-      <p class="lead reveal">Пока учился на психолога, понял: хочу остаться лэшмейкером — здесь та же свобода слышать человека, только результат ещё и красивый.</p>
-      <div>
-        <p class="reveal">Пять лет назад меня обучила сестра, а дальше — только я, практика и насмотренность. Работаю один, без ассистентов и без потока: один клиент — всё моё внимание.</p>
-        <p class="reveal">За креслом можно обсудить всё — от расставания до дедлайна на работе, а можно просто помолчать под музыку. Но что бы ни происходило вокруг, моя работа будет сделана хорошо: лучше я отработаю уставшим, чем отдам результат, которым сам не горжусь.</p>
-      </div>
-    </div>
-
-    <div class="features">
-      <div class="feature reveal">
-        <span class="num">01</span>
-        <h3>Мужчина в профессии</h3>
-        <p>Это правда выделяет меня. Но ещё больше — то, как я отношусь к делу: искренне, глубоко и до последней реснички.</p>
-      </div>
-      <div class="feature reveal">
-        <span class="num">02</span>
-        <h3>Без трэша</h3>
-        <p>Не делаю «гусеницы» и объём ради объёма. Форма и густота подбираются под цвет волос, посадку глаз, брови — под вас, а не по шаблону.</p>
-      </div>
-      <div class="feature reveal">
-        <span class="num">03</span>
-        <h3>Авторская техника</h3>
-        <p>Работаю в редкой технике, которую в Сочи не делает больше никто, и на LED вместо лампы — аккуратнее, без раздражения и запаха.</p>
-      </div>
-    </div>
+    <a href="#hero" class="logo">MR. LASH BOSS</a>
   </div>
-</section>
+</header>
 
-<section class="comfort">
-  <div class="wrap">
-    <span class="section-label reveal">Атмосфера</span>
-    <div class="pill-row reveal">
-      <span class="pill">Своя музыка</span>
-      <span class="pill">Кондиционер и плед</span>
-      <span class="pill">Чай и сладости</span>
-      <span class="pill">Можно с подругой</span>
-      <span class="pill">Можно с ребёнком или собакой</span>
-    </div>
-    <p class="quote reveal">«Олежа, вы там ресницы наращиваете или стендап?» — соседи по кабинету, не переставая.</p>
-  </div>
-</section>
+<main>
+<!-- SECTIONS -->
+</main>
 
-<section class="services" id="services">
-  <div class="wrap">
-    <div class="svc-top">
-      <div>
-        <span class="section-label reveal">Услуги и цены</span>
-        <h2 class="reveal" style="margin-bottom:0">Наращивание ресниц</h2>
-      </div>
-      <p class="reveal">От деликатной классики до дерзкого объёма. Результат держится 1,5–2 месяца.</p>
-    </div>
-
-    <div class="signature reveal">
-      <div>
-        <span class="tag">Фирменный эффект</span>
-        <h3>Мокрый эффект</h3>
-        <p>Самый любимый и самый гибкий эффект — играю от тонких, нежных линий до крупных, дерзких форм. Всегда советую тем, кто хочет яркости.</p>
-      </div>
-      <div class="price">3 300 ₽</div>
-    </div>
-
-    <table class="price-table reveal">
-      <tr><td>Классика</td><td>2 600 ₽</td></tr>
-      <tr><td>1.5D</td><td>2 800 ₽</td></tr>
-      <tr><td>2.5D</td><td>3 400 ₽</td></tr>
-      <tr><td>3D</td><td>3 600 ₽</td></tr>
-      <tr><td>Лучи / кошачий глаз</td><td>2 400 ₽</td></tr>
-      <tr><td>Нижние ресницы</td><td>1 000 ₽</td></tr>
-      <tr><td>Снятие работы другого мастера</td><td>200 ₽</td></tr>
-    </table>
-
-    <div class="price-note reveal">
-      <span><strong>Коррекция</strong> — до 2 недель</span>
-      <span><strong>Процедура</strong> — 1,5–3 часа</span>
-      <span><strong>Предоплата</strong> — не требуется</span>
-      <span><strong>Держится</strong> — 1,5–2 месяца</span>
-    </div>
-  </div>
-</section>
-
-<section class="process">
-  <div class="wrap">
-    <span class="section-label reveal">Подбор образа</span>
-    <h2 class="reveal">Четыре вопроса перед началом работы</h2>
-    <div class="steps">
-      <div class="step reveal">
-        <span class="num">01</span>
-        <h3>Какой образ вы хотите</h3>
-        <p>Нежнее или дерзче — отправная точка любого подбора.</p>
-      </div>
-      <div class="step reveal">
-        <span class="num">02</span>
-        <h3>Особенности внешности</h3>
-        <p>Цвет волос, форма и посадка глаз, густота бровей.</p>
-      </div>
-      <div class="step reveal">
-        <span class="num">03</span>
-        <h3>Состояние своих ресниц</h3>
-        <p>Длина и густота — чтобы объём держался дольше и не тяжелил взгляд.</p>
-      </div>
-      <div class="step reveal">
-        <span class="num">04</span>
-        <h3>Ваши границы</h3>
-        <p>Если что-то не нравится — меняем на месте, до полного комфорта.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="gallery" id="gallery">
-  <div class="wrap">
-    <span class="section-label reveal">Работы</span>
-    <h2 class="reveal">Галерея</h2>
-    <div class="gal-grid">
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Фото работы</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Крупный план глаз</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Мокрый эффект</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Портрет мастера</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Классика</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>3D объём</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Кабинет</span></div></div>
-      <div class="gal-item reveal"><div class="inner"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Лучи</span></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="reviews">
-  <div class="wrap">
-    <span class="section-label reveal">Отзывы</span>
-    <h2 class="reveal">Что говорят клиентки</h2>
-    <div class="rev-grid">
-      <div class="rev-card reveal">
-        <span class="quote-mark">”</span>
-        <p>Место для реального отзыва клиентки</p>
-      </div>
-      <div class="rev-card reveal">
-        <span class="quote-mark">”</span>
-        <p>Место для реального отзыва клиентки</p>
-      </div>
-      <div class="rev-card reveal">
-        <span class="quote-mark">”</span>
-        <p>Место для реального отзыва клиентки</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="contact-final" id="contact">
-  <div class="wrap">
-    <span class="section-label reveal">Контакты</span>
-    <h2 class="reveal">Готовы к переменам?</h2>
-    <a class="btn solid reveal" data-cursor href="https://t.me/mrlashboss" target="_blank" rel="noopener">
-      Написать в Telegram
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    </a>
-    <p class="cta-note reveal">Обычно отвечаю быстро — а если не сразу, значит работаю с кем-то так же внимательно.</p>
-
-    <div class="contact-secondary reveal">
-      <dl class="item">
-        <dt>Адрес</dt>
-        <dd>Ул. Московская, 19, 4 этаж, каб. 401<br>(напротив «Александрии»), центр Сочи</dd>
-      </dl>
-      <dl class="item">
-        <dt>Часы</dt>
-        <dd>Ежедневно, 10:00–20:00<br>Запись — до 20:00</dd>
-      </dl>
-      <dl class="item">
-        <dt>Telegram</dt>
-        <dd><a href="https://t.me/mrlashboss" target="_blank" rel="noopener">@mrlashboss</a><br>обычно отвечаю быстро</dd>
-      </dl>
-    </div>
-    <iframe class="map-frame reveal" loading="lazy" src="https://www.google.com/maps?q=Сочи,+улица+Московская+19&output=embed"></iframe>
-  </div>
-</section>
-
-<footer>
-  <div><strong>MR. LASH BOSS</strong> — Сочи, ул. Московская 19</div>
-  <div>Наращивание ресниц у мастера, которому доверяют</div>
+<footer id="footer">
 </footer>
 
 <script>
-  // scroll reveal
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const el = entry.target;
-        el.classList.add('visible');
-        el.addEventListener('transitionend', ()=>{ el.style.willChange = 'auto'; }, {once:true});
-        observer.unobserve(el);
-      }
-    });
-  },{threshold:0.12});
-  document.querySelector('.hero h1')?.addEventListener('animationend', function(){ this.style.willChange = 'auto'; }, {once:true});
-
-  document.querySelectorAll('.reveal').forEach((el,i)=>{
-    el.style.transitionDelay = (i % 6) * 0.06 + 's';
-    observer.observe(el);
-  });
-
-  // stat count-up
-  const statObserver = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const el = entry.target;
-        const target = parseInt(el.dataset.target,10);
-        let cur = 0;
-        const step = Math.max(1, Math.round(target/30));
-        const tick = ()=>{
-          cur += step;
-          if(cur >= target){ el.textContent = target; return; }
-          el.textContent = cur;
-          requestAnimationFrame(tick);
-        };
-        tick();
-        statObserver.unobserve(el);
-      }
-    });
-  },{threshold:0.5});
-  document.querySelectorAll('.stat-num[data-target]').forEach(el=>statObserver.observe(el));
-
-  // custom cursor (pointer devices only)
-  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
-    document.documentElement.classList.add('has-cursor');
-    const dot = document.getElementById('cursorDot');
-    const ring = document.getElementById('cursorRing');
-    let rx=0, ry=0, mx=0, my=0;
-    window.addEventListener('mousemove', e=>{
-      mx = e.clientX; my = e.clientY;
-      dot.style.left = mx+'px'; dot.style.top = my+'px';
-    });
-    const loop = ()=>{
-      rx += (mx-rx)*0.18; ry += (my-ry)*0.18;
-      ring.style.left = rx+'px'; ring.style.top = ry+'px';
-      requestAnimationFrame(loop);
-    };
-    loop();
-    document.querySelectorAll('a, button, [data-cursor], .pill, .gal-item').forEach(el=>{
-      el.addEventListener('mouseenter', ()=>ring.classList.add('hovering'));
-      el.addEventListener('mouseleave', ()=>ring.classList.remove('hovering'));
-    });
-  }
+document.addEventListener('DOMContentLoaded', function () {
+<!-- SECTION SCRIPTS -->
+});
 </script>
+
 </body>
 </html>
