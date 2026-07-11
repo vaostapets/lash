@@ -52,6 +52,7 @@
   p{font-size:15px; color:inherit;}
 
   section{padding:100px 0;}
+  section{scroll-margin-top:84px;}
   section.dark{background:var(--black); color:var(--white);}
   section.light{background:var(--white); color:var(--black);}
   section.off{background:var(--off); color:var(--black);}
@@ -113,7 +114,6 @@
   .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;}
   .hero-title{font-size:clamp(32px,5vw,58px); line-height:1.08; margin-bottom:24px;}
   .hero-sub{font-size:16px; color:rgba(255,255,255,0.72); max-width:480px; margin-bottom:32px;}
-  .hero-micro{font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--silver); margin-bottom:36px;}
   .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
   .hero-plate{aspect-ratio:4/5;}
 
@@ -147,6 +147,7 @@
   }
   @media (max-width:700px){
     .card-grid{grid-template-columns:1fr;}
+    .comfort-grid{grid-template-columns:1fr;}
   }
 
   .steps-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px;}
@@ -175,7 +176,6 @@
   .wet-list li{font-size:14px; color:rgba(255,255,255,0.75); padding-left:18px; position:relative;}
   .wet-list li::before{content:"—"; position:absolute; left:0; color:var(--silver);}
 
-  .comfort-grid{grid-template-columns:repeat(3,1fr);}
   .comfort-grid .card{background:var(--off); border-color:var(--line-dark);}
 
   @media (max-width:900px){
@@ -422,12 +422,12 @@
     <span class="section-label reveal">Галерея</span>
     <h2 class="reveal">Работы</h2>
     <div class="filter-bar reveal">
-      <button class="filter-btn active" data-filter="all">Все</button>
-      <button class="filter-btn" data-filter="classic">Классика</button>
-      <button class="filter-btn" data-filter="wet">Мокрый эффект</button>
-      <button class="filter-btn" data-filter="bright">Яркие работы</button>
-      <button class="filter-btn" data-filter="soft">Нежные работы</button>
-      <button class="filter-btn" data-filter="full">Полный образ</button>
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">Все</button>
+      <button class="filter-btn" data-filter="classic" aria-pressed="false">Классика</button>
+      <button class="filter-btn" data-filter="wet" aria-pressed="false">Мокрый эффект</button>
+      <button class="filter-btn" data-filter="bright" aria-pressed="false">Яркие работы</button>
+      <button class="filter-btn" data-filter="soft" aria-pressed="false">Нежные работы</button>
+      <button class="filter-btn" data-filter="full" aria-pressed="false">Полный образ</button>
     </div>
     <div class="gallery-grid">
       <div class="plate on-light gallery-item reveal" data-category="classic">Фото работы 1</div>
@@ -470,35 +470,35 @@
     <h2 class="reveal">Вопросы и ответы</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-q">Сколько длится процедура?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Сколько длится процедура?<span class="plus">+</span></button>
         <div class="faq-a"><p>Обычно от 1,5 до 2,5 часов. В сложных случаях процедура может занять до 3 часов.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
         <div class="faq-a"><p>Это нормально. Я помогу подобрать вариант под ваш образ, форму глаз, натуральные ресницы и стиль.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
         <div class="faq-a"><p>Да. Можно сделать аккуратную классику, мягкий объем или более нежный вариант мокрого эффекта.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
         <div class="faq-a"><p>Да. Для более дерзкого и выразительного образа чаще всего рекомендую мокрый эффект.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Сколько носятся ресницы?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Сколько носятся ресницы?<span class="plus">+</span></button>
         <div class="faq-a"><p>У многих клиенток ресницы держатся 1,5–2 месяца. Точная носка зависит от ухода, особенностей кожи, ресниц и образа жизни.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
         <div class="faq-a"><p>Можно, но баня и сауна могут ухудшить носку ресниц.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
         <div class="faq-a"><p>Да, можно. Главное — заранее предупредить.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">Где проходит процедура?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Где проходит процедура?<span class="plus">+</span></button>
         <div class="faq-a"><p>В центре Сочи: ул. Московская 19, 4 этаж, кабинет 401.</p></div>
       </div>
     </div>
@@ -596,8 +596,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var galleryItems = document.querySelectorAll('.gallery-item');
   filterButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      filterButtons.forEach(function (b) { b.classList.remove('active'); });
+      filterButtons.forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
       var filter = btn.getAttribute('data-filter');
       galleryItems.forEach(function (item) {
         var show = filter === 'all' || item.getAttribute('data-category') === filter;
@@ -614,10 +618,12 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
         openItem.classList.remove('open');
         openItem.querySelector('.faq-a').style.maxHeight = null;
+        openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
       });
       if (!isOpen) {
         item.classList.add('open');
         a.style.maxHeight = a.scrollHeight + 'px';
+        q.setAttribute('aria-expanded', 'true');
       }
     });
   });
