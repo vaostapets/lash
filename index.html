@@ -200,6 +200,32 @@
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
   }
 
+  .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .review-card{padding:28px; background:var(--off); border:1px solid var(--line-dark);}
+  .review-card .avatar{
+    width:40px; height:40px; border-radius:50%; margin-bottom:16px;
+    background:linear-gradient(160deg, rgba(0,0,0,0.12), rgba(0,0,0,0.02));
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; letter-spacing:0.05em; text-transform:uppercase; color:var(--grey);
+  }
+  .review-card p{font-size:14px; font-style:italic;}
+
+  .faq-list{max-width:760px; margin-top:8px;}
+  .faq-item{border-bottom:1px solid var(--line-dark);}
+  .faq-q{
+    width:100%; display:flex; justify-content:space-between; align-items:center;
+    padding:22px 0; background:none; border:none; cursor:pointer;
+    font-size:15px; font-weight:600; text-align:left; color:inherit;
+  }
+  .faq-q .plus{font-size:20px; transition:transform .3s ease; color:var(--silver);}
+  .faq-item.open .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .faq-a p{padding-bottom:22px; color:var(--grey); max-width:640px;}
+
+  @media (max-width:900px){
+    .reviews-grid{grid-template-columns:1fr;}
+  }
+
   /* === SECTION STYLES === */
 </style>
 </head>
@@ -378,6 +404,67 @@
     </div>
   </div>
 </section>
+<section id="reviews" class="light">
+  <div class="wrap">
+    <span class="section-label reveal">Отзывы</span>
+    <h2 class="reveal">Отзывы клиенток</h2>
+    <p class="reveal" style="color:var(--grey); margin-bottom:32px;">Скоро здесь появятся реальные отзывы клиенток.</p>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Очень понравился подход. Олег помог выбрать эффект, который подошел именно мне. Ресницы выглядят аккуратно и красиво».</p>
+      </div>
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Пришла за ресницами, а получила еще и прекрасную атмосферу. Было комфортно, весело и спокойно».</p>
+      </div>
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Ресницы носились очень долго. Видно, что мастер действительно любит свою работу и делает все внимательно».</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="faq" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Вопросы и ответы</span>
+    <h2 class="reveal">Вопросы и ответы</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">Сколько длится процедура?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Обычно от 1,5 до 2,5 часов. В сложных случаях процедура может занять до 3 часов.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Это нормально. Я помогу подобрать вариант под ваш образ, форму глаз, натуральные ресницы и стиль.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да. Можно сделать аккуратную классику, мягкий объем или более нежный вариант мокрого эффекта.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да. Для более дерзкого и выразительного образа чаще всего рекомендую мокрый эффект.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Сколько носятся ресницы?<span class="plus">+</span></button>
+        <div class="faq-a"><p>У многих клиенток ресницы держатся 1,5–2 месяца. Точная носка зависит от ухода, особенностей кожи, ресниц и образа жизни.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Можно, но баня и сауна могут ухудшить носку ресниц.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да, можно. Главное — заранее предупредить.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Где проходит процедура?<span class="plus">+</span></button>
+        <div class="faq-a"><p>В центре Сочи: ул. Московская 19, 4 этаж, кабинет 401.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- SECTIONS -->
 </main>
 
@@ -423,6 +510,22 @@ document.addEventListener('DOMContentLoaded', function () {
         var show = filter === 'all' || item.getAttribute('data-category') === filter;
         item.classList.toggle('hidden', !show);
       });
+    });
+  });
+
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
     });
   });
 
