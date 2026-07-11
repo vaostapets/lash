@@ -1,0 +1,1120 @@
+# Mr. Lash Boss Landing Relaunch Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Replace `index.html` on `main` with a brand-new one-page lash-studio landing (Mr. Lash Boss, Sochi) per `docs/superpowers/specs/2026-07-11-mr-lash-boss-relaunch-design.md`, while the current site stays untouched on branch `archive`.
+
+**Architecture:** Single static `index.html` file — inline `<style>` and `<script>`, no build step, no frameworks (matches the existing project convention). Sections are inserted in document order behind two anchor comments (`<!-- SECTIONS -->` in `<main>`, `<!-- SECTION SCRIPTS -->` in `<script>`) established in Task 1, so later tasks always know exactly where to insert without depending on shifting line numbers.
+
+**Tech Stack:** HTML5, vanilla CSS (custom properties), vanilla JS (`IntersectionObserver`, no dependencies), Google Fonts (Montserrat, already used in the current site).
+
+## Global Constraints
+
+- One file: `index.html`. No new files, no npm, no build tooling.
+- Colors: black `#0a0a0a` primary, white/off-white secondary (`#ffffff` / `#f4f3f1`), silver `#c9cdd2` as a **rare** accent only (CTA hover/active states, a couple of highlighted words) — never a primary color, never pink/burgundy/nude.
+- Font: `Montserrat` (weights 300–900), loaded via the same Google Fonts `<link>` pattern as the current site.
+- Placeholder photo/logo blocks: solid plate (dark or light depending on section) with a centered uppercase caption, no icons/silhouettes.
+- All social/messenger/phone/map links are placeholders: `href="#"`, each with an inline HTML comment noting what real value replaces it later.
+- Copy is taken verbatim from the client's brief (reproduced in full inside each task below) — do not paraphrase or invent new copy.
+- No test framework exists in this repo and none should be added. Verification is (a) `grep` checks that required markup/text landed in the file, and (b) explicit manual browser checks described in each task.
+
+---
+
+### Task 1: Page skeleton, design tokens, base components
+
+**Files:**
+- Create/Overwrite: `index.html` (this replaces the current file's contents entirely on `main`; the old version remains safe on branch `archive`)
+
+**Interfaces:**
+- Produces: CSS custom properties (`--black`, `--white`, `--off`, `--grey`, `--silver`, `--line`, `--line-dark`), base classes (`.wrap`, `.section-label`, `.btn` + `.light`/`.dark`/`.silver` modifiers, `.reveal`/`.is-visible`, `.plate` + `.on-dark`/`.on-light`, `section.dark`/`.light`/`.off`), and two anchor comments that every later task inserts content before: `<!-- SECTIONS -->` inside `<main>`, and `<!-- SECTION SCRIPTS -->` inside the final `<script>` block.
+- Consumes: nothing (first task).
+
+- [ ] **Step 1: Write the skeleton file**
+
+Create `index.html` with this exact content:
+
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Наращивание ресниц в Сочи — Mr. Lash Boss</title>
+<meta name="description" content="Наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, классика, объемы, мокрый эффект, LED-технология. Мастер Олег / Mr. Lash Boss.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --white:#ffffff;
+    --off:#f4f3f1;
+    --grey:#8a8a8a;
+    --silver:#c9cdd2;
+    --line: rgba(255,255,255,0.14);
+    --line-dark: rgba(0,0,0,0.1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Montserrat',sans-serif;
+    background:var(--white);
+    color:var(--black);
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+  .section-label{
+    font-size:12px;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--grey);
+    font-weight:600;
+    margin-bottom:18px;
+    display:inline-block;
+  }
+  h1,h2,h3{
+    font-weight:800;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+  }
+  h2{font-size:clamp(24px,3.6vw,38px); margin-bottom:20px;}
+  p{font-size:15px; color:inherit;}
+
+  section{padding:100px 0;}
+  section.dark{background:var(--black); color:var(--white);}
+  section.light{background:var(--white); color:var(--black);}
+  section.off{background:var(--off); color:var(--black);}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:17px 36px;
+    border:1.5px solid currentColor;
+    font-size:13px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:700;
+    transition:all .35s ease;
+    cursor:pointer;
+    background:transparent;
+  }
+  .btn.light{color:var(--white);}
+  .btn.light:hover{background:var(--white); color:var(--black);}
+  .btn.dark{color:var(--black);}
+  .btn.dark:hover{background:var(--black); color:var(--white);}
+  .btn.silver:hover{border-color:var(--silver); color:var(--silver);}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.is-visible{opacity:1; transform:none;}
+
+  .plate{
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:24px; min-height:160px;
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--grey);
+    border:1px solid var(--line-dark);
+  }
+  .plate.on-dark{
+    border-color:var(--line); color:rgba(255,255,255,0.55);
+    background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
+  }
+  .plate.on-light{
+    background:linear-gradient(160deg, rgba(0,0,0,0.035), rgba(0,0,0,0));
+  }
+
+  /* === SECTION STYLES === */
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="#hero" class="logo">MR. LASH BOSS</a>
+  </div>
+</header>
+
+<main>
+<!-- SECTIONS -->
+</main>
+
+<footer id="footer">
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+<!-- SECTION SCRIPTS -->
+});
+</script>
+
+</body>
+</html>
+```
+
+Note: the `<!-- SECTION SCRIPTS -->` marker sits inside a `<script>` tag, so later tasks replace it with real JS (never leave it as literal HTML-style comment text in the final file — it is valid as a JS comment `//` too, but we keep the arrow-comment for now purely as a grep-able anchor and every task that touches it must keep exactly one instance of the marker until the last task removes it).
+
+- [ ] **Step 2: Verify structure landed correctly**
+
+Run:
+```bash
+grep -c '<!-- SECTIONS -->' index.html
+grep -c '<!-- SECTION SCRIPTS -->' index.html
+grep -c 'MR. LASH BOSS' index.html
+```
+Expected: each command prints `1`.
+
+- [ ] **Step 3: Open in browser and sanity check**
+
+Run: `open index.html` (macOS) — confirm the page loads with a plain header reading "MR. LASH BOSS" and no console errors (open DevTools console).
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html
+git commit -m "Rebuild index.html skeleton with design tokens for relaunch"
+```
+
+---
+
+### Task 2: Header nav + Hero section
+
+**Files:**
+- Modify: `index.html` (header, and insert first section before `<!-- SECTIONS -->`; insert JS before `<!-- SECTION SCRIPTS -->`)
+
+**Interfaces:**
+- Consumes: `.wrap`, `.btn`, `.reveal`, `.plate`, `.section-label`, tokens from Task 1; `<!-- SECTIONS -->` and `<!-- SECTION SCRIPTS -->` markers.
+- Produces: `#hero` section; nav ids `#about`, `#services`, `#gallery`, `#reviews`, `#contact` (targets used by nav links here and consumed by later tasks' section `id`s); burger toggle class `.nav-open` on `.site-header`; smooth-anchor-close behavior other tasks don't need to touch.
+
+- [ ] **Step 1: Replace the `<header>` block**
+
+Find the `<header class="site-header">...</header>` block written in Task 1 and replace it with:
+
+```html
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#hero" class="logo">MR. LASH BOSS</a>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="#about">О мастере</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#gallery">Работы</a></li>
+        <li><a href="#reviews">Отзывы</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+    <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+```
+
+- [ ] **Step 2: Add header + hero CSS**
+
+In `<style>`, replace the `/* === SECTION STYLES === */` marker with:
+
+```css
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,10,10,0.85); backdrop-filter:blur(6px);
+  }
+  .header-inner{display:flex; align-items:center; justify-content:space-between; height:84px;}
+  .logo{color:var(--white); font-weight:800; letter-spacing:0.08em; font-size:16px;}
+  .site-nav ul{display:flex; gap:32px;}
+  .site-nav a{color:var(--white); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; font-weight:600; transition:color .3s ease;}
+  .site-nav a:hover{color:var(--silver);}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px;}
+  .burger span{width:24px; height:2px; background:var(--white); transition:transform .3s ease, opacity .3s ease;}
+
+  #hero{
+    padding-top:180px; padding-bottom:120px;
+    background:var(--black); color:var(--white);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;}
+  .hero-title{font-size:clamp(32px,5vw,58px); line-height:1.08; margin-bottom:24px;}
+  .hero-sub{font-size:16px; color:rgba(255,255,255,0.72); max-width:480px; margin-bottom:32px;}
+  .hero-micro{font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--silver); margin-bottom:36px;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .hero-plate{aspect-ratio:4/5;}
+
+  @media (max-width:900px){
+    .site-nav{display:none;}
+    .burger{display:flex;}
+    .hero-grid{grid-template-columns:1fr; gap:40px;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 3: Insert the Hero section**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="hero" class="dark">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="section-label">Олег / Mr. Lash Boss · Сочи, ул. Московская 19</span>
+      <h1 class="hero-title">Ресницы под ваш образ — от нежной классики до дерзкого мокрого эффекта</h1>
+      <p class="hero-sub">Наращивание ресниц в центре Сочи с индивидуальным подбором под вашу внешность, стиль и настроение. Аккуратно, выразительно и без шаблонов.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn light silver">Записаться</a>
+        <a href="#gallery" class="btn light">Посмотреть работы</a>
+      </div>
+    </div>
+    <div class="plate on-dark hero-plate reveal">Фото мастера / работа крупным планом</div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 4: Add burger menu + smooth-scroll-close JS**
+
+Replace `<!-- SECTION SCRIPTS -->` with:
+
+```js
+  var burger = document.querySelector('.burger');
+  var header = document.querySelector('.site-header');
+  burger.addEventListener('click', function () {
+    var isOpen = header.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  document.querySelectorAll('.site-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      header.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // === REVEAL ON SCROLL ===
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    revealObserver.observe(el);
+  });
+
+  <!-- SECTION SCRIPTS -->
+```
+
+Also add mobile nav-open styling — append to `<style>` right after the `@media (max-width:900px){...}` block from Step 2 (inside the same media query, add these lines before its closing `}`):
+
+```css
+    .site-header.nav-open .site-nav{
+      display:block; position:absolute; top:84px; left:0; right:0;
+      background:var(--black); padding:20px 28px;
+    }
+    .site-header.nav-open .site-nav ul{flex-direction:column; gap:20px;}
+```
+
+- [ ] **Step 5: Verify**
+
+```bash
+grep -c 'id="hero"' index.html
+grep -c 'Ресницы под ваш образ' index.html
+grep -c 'class="burger"' index.html
+```
+Expected: each prints `1`.
+
+Open `index.html` in a browser: confirm hero renders full-bleed dark with title/subtitle/buttons, nav links scroll-jump (even though targets don't exist yet, no JS error should occur), and at a narrow width (resize <900px) the burger button appears and toggles the nav list.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add index.html
+git commit -m "Add header nav and hero section"
+```
+
+---
+
+### Task 3: About + Why-choose sections
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.plate`, `.reveal`, `section.light`/`.off` from Task 1; `<!-- SECTIONS -->` marker (Hero now precedes it, per Task 2's insertion pattern).
+- Produces: `#about` section (id target for nav link added in Task 2); a reusable `.card-grid`/`.card` component consumed by Task 4 (comfort not yet, careful: also reused by Task 5 comfort cards) — establish these classes generically here.
+
+- [ ] **Step 1: Add About + Why-choose CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .about-grid{display:grid; grid-template-columns:0.8fr 1.2fr; gap:64px; align-items:center;}
+  .about-plate{aspect-ratio:3/4;}
+  .about-badge{display:inline-block; margin-top:20px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey); border-top:1px solid var(--line-dark); padding-top:12px;}
+  .about-text p{margin-bottom:16px; max-width:560px;}
+
+  .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
+  .card{
+    padding:32px 28px; background:var(--white); border:1px solid var(--line-dark);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.08);}
+  .card h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em;}
+  .card p{font-size:14px; color:var(--grey);}
+
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:700px){
+    .card-grid{grid-template-columns:1fr;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert About section**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="about" class="light">
+  <div class="wrap about-grid">
+    <div class="plate on-light about-plate reveal">Фото Олега</div>
+    <div class="about-text reveal">
+      <span class="section-label">О мастере</span>
+      <h2>Олег, Mr. Lash Boss</h2>
+      <p>Я занимаюсь наращиванием ресниц уже 5 лет и больше всего люблю в этой профессии возможность создавать образ, который действительно подходит человеку.</p>
+      <p>Для меня ресницы — это не просто длина и объем. Это настроение, характер, стиль и то, как человек хочет себя чувствовать.</p>
+      <p>Я работаю один, внимательно отношусь к каждой клиентке и не делаю работу «на потоке». Лучше потрачу больше времени, но сделаю результат аккуратным, красивым и носким.</p>
+      <span class="about-badge">5 лет в профессии</span>
+    </div>
+  </div>
+</section>
+<section id="why" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Почему выбирают Олега</span>
+    <h2 class="reveal">Почему ко мне приезжают даже издалека</h2>
+    <div class="card-grid">
+      <div class="card reveal">
+        <h3>Индивидуальный подбор</h3>
+        <p>Подбираю эффект под форму глаз, посадку, брови, цвет волос, натуральные ресницы и общий стиль.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Мужской взгляд на красоту</h3>
+        <p>Помогаю посмотреть на образ со стороны и выбрать вариант, который действительно подчеркивает внешность.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Не работаю на потоке</h3>
+        <p>Каждая клиентка — отдельный образ, а не шаблонная схема.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Аккуратный результат</h3>
+        <p>Не делаю тяжелые и неэстетичные работы. Даже яркий эффект должен выглядеть стильно.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Долгая носка</h3>
+        <p>Клиентки часто носят ресницы 1,5–2 месяца при правильном уходе.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Комфортная атмосфера</h3>
+        <p>Можно общаться, смеяться, слушать музыку или просто отдыхать.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Verify**
+
+```bash
+grep -c 'id="about"' index.html
+grep -c 'id="why"' index.html
+grep -c 'Индивидуальный подбор' index.html
+```
+Expected: each prints `1`.
+
+Open in browser: About section shows plate + 3 paragraphs + "5 лет в профессии" badge; Why-choose shows 6 cards in a 3-column grid on desktop, 1 column on narrow width, with a subtle lift on hover.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html
+git commit -m "Add about and why-choose sections"
+```
+
+---
+
+### Task 4: How-lashes-are-chosen + Services & pricing
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.card`, `.btn`, `.reveal` from Tasks 1–3.
+- Produces: `#services` section (id target for nav link from Task 2).
+
+- [ ] **Step 1: Add CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .steps-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px; margin-top:40px;}
+  .step{padding:28px 22px; border:1px solid var(--line-dark);}
+  .step-num{font-size:32px; font-weight:800; color:var(--silver); margin-bottom:12px; display:block;}
+  .step p{font-size:14px; color:var(--grey);}
+
+  .price-note{font-size:13px; color:var(--grey); margin-bottom:32px; max-width:560px;}
+  .price-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 40px; margin-bottom:32px;}
+  .price-row{display:flex; justify-content:space-between; align-items:baseline; padding:16px 0; border-bottom:1px solid var(--line-dark);}
+  .price-row .name{font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.03em;}
+  .price-row .value{font-size:15px; font-weight:700;}
+  .price-extra{font-size:14px; color:var(--grey); max-width:560px; margin-bottom:32px;}
+
+  @media (max-width:900px){
+    .steps-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:700px){
+    .steps-grid{grid-template-columns:1fr;}
+    .price-grid{grid-template-columns:1fr;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert sections**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="how" class="light">
+  <div class="wrap">
+    <span class="section-label reveal">Как подбираются ресницы</span>
+    <h2 class="reveal">Вам не нужно разбираться в объемах — я помогу выбрать</h2>
+    <p class="reveal" style="max-width:640px;">Перед началом работы я уточняю, какой образ вы хотите получить: нежный, естественный, яркий, дерзкий или более выразительный.</p>
+    <p class="reveal" style="max-width:640px; margin-top:12px;">Если вы не знаете, что выбрать, я помогу. Смотрю на форму глаз, посадку, длину и густоту натуральных ресниц, цвет волос, брови и общий стиль. После этого предлагаю вариант, который будет смотреться гармонично именно на вас. Вам достаточно прийти и сказать, какой эффект хочется почувствовать. Остальное я беру на себя.</p>
+    <div class="steps-grid">
+      <div class="step reveal"><span class="step-num">01</span><p>Обсуждаем желаемый образ</p></div>
+      <div class="step reveal"><span class="step-num">02</span><p>Анализирую внешность и натуральные ресницы</p></div>
+      <div class="step reveal"><span class="step-num">03</span><p>Предлагаю подходящий эффект</p></div>
+      <div class="step reveal"><span class="step-num">04</span><p>Делаю аккуратное наращивание</p></div>
+    </div>
+  </div>
+</section>
+<section id="services" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Услуги и цены</span>
+    <h2 class="reveal">Услуги и цены</h2>
+    <p class="price-note reveal">Цены предварительные, актуальность уточняйте при записи.</p>
+    <div class="price-grid">
+      <div class="price-row reveal"><span class="name">Лучи</span><span class="value">2 400 ₽</span></div>
+      <div class="price-row reveal"><span class="name">Классика</span><span class="value">2 600 ₽</span></div>
+      <div class="price-row reveal"><span class="name">1,5D</span><span class="value">2 800 ₽</span></div>
+      <div class="price-row reveal"><span class="name">2D</span><span class="value">3 000 ₽</span></div>
+      <div class="price-row reveal"><span class="name">Мокрый эффект</span><span class="value">3 300 ₽</span></div>
+      <div class="price-row reveal"><span class="name">2,5D</span><span class="value">3 400 ₽</span></div>
+      <div class="price-row reveal"><span class="name">3D</span><span class="value">3 600 ₽</span></div>
+      <div class="price-row reveal"><span class="name">Нижние ресницы</span><span class="value">1 000 ₽</span></div>
+      <div class="price-row reveal"><span class="name">Снятие работы другого мастера</span><span class="value">200 ₽</span></div>
+    </div>
+    <p class="price-extra reveal">Цветные акценты, лучи и нестандартные детали обсуждаются индивидуально. Если хочется чего-то необычного — подберем аккуратно и со вкусом.</p>
+    <a href="#contact" class="btn dark reveal">Записаться на процедуру</a>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Verify**
+
+```bash
+grep -c 'id="how"' index.html
+grep -c 'id="services"' index.html
+grep -c '3 300 ₽' index.html
+```
+Expected: each prints `1`.
+
+Open in browser: 4 numbered steps in a row (desktop) collapsing to 1 column on mobile; price rows in a 2-column grid collapsing to 1 column under 700px.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html
+git commit -m "Add how-lashes-are-chosen and services/pricing sections"
+```
+
+---
+
+### Task 5: Wet-effect accent block + Comfort section
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.plate`, `.card`, `.card-grid`, `.btn`, `.reveal`.
+- Produces: nothing new consumed later (no id target needed from these two sections).
+
+- [ ] **Step 1: Add CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .wet-plates{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:36px 0;}
+  .wet-plate{aspect-ratio:3/4;}
+  .wet-list{display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; margin-bottom:32px;}
+  .wet-list li{font-size:14px; color:rgba(255,255,255,0.75); padding-left:18px; position:relative;}
+  .wet-list li::before{content:"—"; position:absolute; left:0; color:var(--silver);}
+
+  .comfort-grid{grid-template-columns:repeat(3,1fr);}
+  .comfort-grid .card{background:var(--off); border-color:var(--line-dark);}
+
+  @media (max-width:900px){
+    .wet-plates{grid-template-columns:1fr 1fr;}
+    .wet-list{grid-template-columns:1fr;}
+  }
+  @media (max-width:700px){
+    .wet-plates{grid-template-columns:1fr;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert sections**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="wet" class="dark">
+  <div class="wrap">
+    <span class="section-label reveal">Акцент</span>
+    <h2 class="reveal">Мокрый эффект — любимая техника мастера</h2>
+    <p class="reveal" style="max-width:640px; color:rgba(255,255,255,0.75);">Мокрый эффект можно сделать очень разным: нежным и аккуратным, более заметным или дерзким. Он красиво подчеркивает взгляд, выглядит современно и хорошо адаптируется под разные стили — от мягкого повседневного образа до яркого акцента.</p>
+    <ul class="wet-list" style="margin-top:28px;">
+      <li class="reveal">Если хочется более выразительный взгляд</li>
+      <li class="reveal">Если надоели стандартные варианты</li>
+      <li class="reveal">Если хочется современный и стильный эффект</li>
+      <li class="reveal">Если нужен образ с характером</li>
+    </ul>
+    <div class="wet-plates">
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — нежный вариант</div>
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — выразительный вариант</div>
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — дерзкий вариант</div>
+    </div>
+    <a href="#contact" class="btn light silver reveal">Хочу мокрый эффект</a>
+  </div>
+</section>
+<section id="comfort" class="light">
+  <div class="wrap">
+    <span class="section-label reveal">Комфорт во время процедуры</span>
+    <h2 class="reveal">Процедура, на которой можно быть собой</h2>
+    <p class="reveal" style="max-width:640px;">У меня можно расслабиться, поболтать, посмеяться, послушать музыку или просто отдохнуть. Процедура обычно длится от 1,5 до 2,5 часов, в сложных случаях — до 3 часов.</p>
+    <p class="reveal" style="max-width:640px; margin-top:12px;">Я сам позабочусь о комфорте: включу кондиционер, предложу воду, плед, сладости и музыку. Можно прийти с подругой, ребенком или собакой — главное, чтобы вам было спокойно и удобно.</p>
+    <div class="card-grid comfort-grid">
+      <div class="card reveal"><p>Вода и сладости</p></div>
+      <div class="card reveal"><p>Плед и кондиционер</p></div>
+      <div class="card reveal"><p>Можно включить свою музыку</p></div>
+      <div class="card reveal"><p>Можно прийти с подругой</p></div>
+      <div class="card reveal"><p>Можно с ребенком или собакой</p></div>
+      <div class="card reveal"><p>Живая, дружелюбная атмосфера</p></div>
+    </div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Verify**
+
+```bash
+grep -c 'id="wet"' index.html
+grep -c 'id="comfort"' index.html
+grep -c 'Мокрый эффект — дерзкий вариант' index.html
+```
+Expected: each prints `1`.
+
+Open in browser: wet-effect block on black background with 3 placeholder plates and a silver-accented button; comfort block with 6 simple cards.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html
+git commit -m "Add wet-effect accent block and comfort section"
+```
+
+---
+
+### Task 6: Gallery with filter
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.plate`, `.reveal`, `<!-- SECTION SCRIPTS -->` marker.
+- Produces: `#gallery` section (id target from Task 2's nav); `data-filter` buttons and `data-category` items pattern (self-contained, nothing later depends on internals beyond the section existing).
+
+- [ ] **Step 1: Add CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .filter-bar{display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;}
+  .filter-btn{
+    padding:10px 20px; border:1px solid var(--line-dark); background:transparent;
+    font-size:12px; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer;
+    transition:all .3s ease;
+  }
+  .filter-btn:hover, .filter-btn.active{background:var(--black); color:var(--white); border-color:var(--black);}
+  .gallery-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+  .gallery-item{aspect-ratio:1/1;}
+  .gallery-item.hidden{display:none;}
+
+  @media (max-width:900px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert section**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="gallery" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Галерея</span>
+    <h2 class="reveal">Работы</h2>
+    <div class="filter-bar reveal">
+      <button class="filter-btn active" data-filter="all">Все</button>
+      <button class="filter-btn" data-filter="classic">Классика</button>
+      <button class="filter-btn" data-filter="wet">Мокрый эффект</button>
+      <button class="filter-btn" data-filter="bright">Яркие работы</button>
+      <button class="filter-btn" data-filter="soft">Нежные работы</button>
+      <button class="filter-btn" data-filter="full">Полный образ</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="plate on-light gallery-item reveal" data-category="classic">Фото работы 1</div>
+      <div class="plate on-light gallery-item reveal" data-category="soft">Фото работы 2</div>
+      <div class="plate on-light gallery-item reveal" data-category="bright">Фото работы 3</div>
+      <div class="plate on-light gallery-item reveal" data-category="full">Фото полного образа</div>
+      <div class="plate on-light gallery-item reveal" data-category="wet">Мокрый эффект</div>
+      <div class="plate on-light gallery-item reveal" data-category="classic">Классика</div>
+      <div class="plate on-light gallery-item reveal" data-category="full">До / после</div>
+      <div class="plate on-light gallery-item reveal" data-category="bright">Акцентный образ</div>
+      <div class="plate on-light gallery-item reveal" data-category="wet">Мокрый эффект — нежный вариант</div>
+      <div class="plate on-light gallery-item reveal" data-category="classic">Классика — мягкий объем</div>
+    </div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Add filter JS**
+
+Replace `<!-- SECTION SCRIPTS -->` with:
+
+```js
+  var filterButtons = document.querySelectorAll('.filter-btn');
+  var galleryItems = document.querySelectorAll('.gallery-item');
+  filterButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterButtons.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      galleryItems.forEach(function (item) {
+        var show = filter === 'all' || item.getAttribute('data-category') === filter;
+        item.classList.toggle('hidden', !show);
+      });
+    });
+  });
+
+  <!-- SECTION SCRIPTS -->
+```
+
+- [ ] **Step 4: Verify**
+
+```bash
+grep -c 'id="gallery"' index.html
+grep -c 'data-filter="wet"' index.html
+grep -c 'filterButtons.forEach' index.html
+```
+Expected: each prints `1`.
+
+Open in browser: gallery shows 10 plates in a 4-column grid (desktop) / 2-column (tablet/mobile). Click "Мокрый эффект" filter — confirm only the 2 wet-effect items remain visible and the button gets the active style; click "Все" — confirm all 10 return.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add index.html
+git commit -m "Add gallery section with category filter"
+```
+
+---
+
+### Task 7: Testimonials + FAQ accordion
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.reveal`, `<!-- SECTION SCRIPTS -->` marker.
+- Produces: `#reviews` section (id target from Task 2's nav); `.faq-item`/`.faq-q`/`.faq-a`/`.open` accordion pattern (self-contained).
+
+- [ ] **Step 1: Add CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .review-card{padding:28px; background:var(--off); border:1px solid var(--line-dark);}
+  .review-card .avatar{
+    width:40px; height:40px; border-radius:50%; margin-bottom:16px;
+    background:linear-gradient(160deg, rgba(0,0,0,0.12), rgba(0,0,0,0.02));
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; letter-spacing:0.05em; text-transform:uppercase; color:var(--grey);
+  }
+  .review-card p{font-size:14px; font-style:italic;}
+
+  .faq-list{max-width:760px; margin-top:8px;}
+  .faq-item{border-bottom:1px solid var(--line-dark);}
+  .faq-q{
+    width:100%; display:flex; justify-content:space-between; align-items:center;
+    padding:22px 0; background:none; border:none; cursor:pointer;
+    font-size:15px; font-weight:600; text-align:left; color:inherit;
+  }
+  .faq-q .plus{font-size:20px; transition:transform .3s ease; color:var(--silver);}
+  .faq-item.open .faq-q .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .faq-a p{padding-bottom:22px; color:var(--grey); max-width:640px;}
+
+  @media (max-width:900px){
+    .reviews-grid{grid-template-columns:1fr;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert sections**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="reviews" class="light">
+  <div class="wrap">
+    <span class="section-label reveal">Отзывы</span>
+    <h2 class="reveal">Отзывы клиенток</h2>
+    <p class="reveal" style="color:var(--grey); margin-bottom:32px;">Скоро здесь появятся реальные отзывы клиенток.</p>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Очень понравился подход. Олег помог выбрать эффект, который подошел именно мне. Ресницы выглядят аккуратно и красиво».</p>
+      </div>
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Пришла за ресницами, а получила еще и прекрасную атмосферу. Было комфортно, весело и спокойно».</p>
+      </div>
+      <div class="review-card reveal">
+        <div class="avatar">скрин отзыва</div>
+        <p>«Ресницы носились очень долго. Видно, что мастер действительно любит свою работу и делает все внимательно».</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="faq" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Вопросы и ответы</span>
+    <h2 class="reveal">Вопросы и ответы</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">Сколько длится процедура?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Обычно от 1,5 до 2,5 часов. В сложных случаях процедура может занять до 3 часов.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Это нормально. Я помогу подобрать вариант под ваш образ, форму глаз, натуральные ресницы и стиль.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да. Можно сделать аккуратную классику, мягкий объем или более нежный вариант мокрого эффекта.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да. Для более дерзкого и выразительного образа чаще всего рекомендую мокрый эффект.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Сколько носятся ресницы?<span class="plus">+</span></button>
+        <div class="faq-a"><p>У многих клиенток ресницы держатся 1,5–2 месяца. Точная носка зависит от ухода, особенностей кожи, ресниц и образа жизни.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Можно, но баня и сауна могут ухудшить носку ресниц.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да, можно. Главное — заранее предупредить.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Где проходит процедура?<span class="plus">+</span></button>
+        <div class="faq-a"><p>В центре Сочи: ул. Московская 19, 4 этаж, кабинет 401.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Add accordion JS**
+
+Replace `<!-- SECTION SCRIPTS -->` with:
+
+```js
+  document.querySelectorAll('.faq-item').forEach(function (item) {
+    var q = item.querySelector('.faq-q');
+    var a = item.querySelector('.faq-a');
+    q.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
+  <!-- SECTION SCRIPTS -->
+```
+
+- [ ] **Step 4: Verify**
+
+```bash
+grep -c 'id="reviews"' index.html
+grep -c 'id="faq"' index.html
+grep -c 'faq-item' index.html
+```
+Expected: first two print `1`; third prints `16` (8 items × open/close occurrences in class list + selector — confirm it is at least `8`, the exact count depends on how many literal occurrences of the string `faq-item` appear; treat "at least 8" as the pass condition instead of an exact count).
+
+Open in browser: 3 review cards render; clicking a FAQ question expands its answer and rotates the `+` into a `×`; clicking a second question closes the first and opens the second.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add index.html
+git commit -m "Add testimonials and FAQ accordion sections"
+```
+
+---
+
+### Task 8: Contact/booking, floating messenger button, footer
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: `.wrap`, `.section-label`, `.plate`, `.btn`, `.reveal`, `<!-- SECTION SCRIPTS -->` marker, the empty `<footer id="footer">` from Task 1.
+- Produces: `#contact` section (last remaining id target from Task 2's nav); completes the footer; adds a fixed floating messenger button and a mobile sticky CTA bar (both are new, self-contained, nothing later depends on them).
+
+- [ ] **Step 1: Add CSS**
+
+Replace `/* === SECTION STYLES === */` with:
+
+```css
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
+  .contact-info p{margin-bottom:20px; max-width:440px;}
+  .contact-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;}
+  .map-plate{aspect-ratio:4/3;}
+
+  .floating-msg{
+    position:fixed; right:24px; bottom:24px; z-index:90;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--black); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; text-align:center; letter-spacing:0.02em;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    transition:transform .3s ease;
+  }
+  .floating-msg:hover{transform:scale(1.08);}
+
+  .mobile-cta{display:none;}
+
+  #footer{background:var(--black); color:rgba(255,255,255,0.8); padding:64px 0 28px;}
+  .footer-grid{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; margin-bottom:40px;}
+  .footer-logo{color:var(--white); font-weight:800; letter-spacing:0.08em; margin-bottom:16px; display:block;}
+  .footer-desc{font-size:13px; max-width:320px;}
+  .footer-col h4{font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver); margin-bottom:16px;}
+  .footer-col ul li{margin-bottom:10px; font-size:13px;}
+  .footer-bottom{border-top:1px solid var(--line); padding-top:24px; font-size:12px; color:rgba(255,255,255,0.45);}
+
+  @media (max-width:900px){
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr; gap:28px;}
+  }
+  @media (max-width:700px){
+    .mobile-cta{
+      display:flex; position:fixed; left:0; right:0; bottom:0; z-index:95;
+      background:var(--black); padding:14px 20px;
+    }
+    .mobile-cta a{flex:1; justify-content:center;}
+    body{padding-bottom:70px;}
+  }
+
+  /* === SECTION STYLES === */
+```
+
+- [ ] **Step 2: Insert contact section**
+
+Replace `<!-- SECTIONS -->` with:
+
+```html
+<section id="contact" class="light">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <span class="section-label">Контакты и запись</span>
+      <h2>Записаться на ресницы</h2>
+      <p>Принимаю в самом центре Сочи: ул. Московская 19, 4 этаж, кабинет 401, напротив Александрии.</p>
+      <p>Работаю каждый день с 10:00 до 20:00.</p>
+      <p>Записаться можно в Instagram, Telegram, WhatsApp, MAX, по звонку или SMS.</p>
+      <div class="contact-actions">
+        <!-- заменить href на реальный профиль Instagram -->
+        <a href="#" class="btn dark">Instagram</a>
+        <!-- заменить href на реальную ссылку Telegram -->
+        <a href="#" class="btn dark">Telegram</a>
+        <!-- заменить href на реальную ссылку WhatsApp -->
+        <a href="#" class="btn dark">WhatsApp</a>
+        <!-- заменить href на tel:+7... после уточнения номера -->
+        <a href="#" class="btn dark">Позвонить</a>
+        <!-- заменить href на sms:+7... после уточнения номера -->
+        <a href="#" class="btn dark">Написать SMS</a>
+      </div>
+    </div>
+    <div class="plate on-light map-plate reveal">Здесь будет карта с адресом: Сочи, ул. Московская 19</div>
+  </div>
+</section>
+<!-- SECTIONS -->
+```
+
+- [ ] **Step 3: Fill in footer**
+
+Find `<footer id="footer">\n</footer>` (written empty in Task 1) and replace with:
+
+```html
+<footer id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <span class="footer-logo">MR. LASH BOSS</span>
+        <p class="footer-desc">Mr. Lash Boss — наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, аккуратная работа и комфортная атмосфера.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Меню</h4>
+        <ul>
+          <li><a href="#about">О мастере</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#gallery">Работы</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <ul>
+          <li>Сочи, ул. Московская 19, 4 этаж, каб. 401</li>
+          <li>Ежедневно 10:00–20:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Mr. Lash Boss. Все права защищены.</div>
+  </div>
+</footer>
+<!-- заменить href на реальную ссылку WhatsApp/Telegram -->
+<a href="#" class="floating-msg">Написать</a>
+<div class="mobile-cta">
+  <a href="#contact" class="btn light silver">Записаться</a>
+</div>
+```
+
+- [ ] **Step 4: Verify**
+
+```bash
+grep -c 'id="contact"' index.html
+grep -c 'floating-msg' index.html
+grep -c 'mobile-cta' index.html
+grep -c '© 2026 Mr. Lash Boss' index.html
+```
+Expected: each prints at least `1` (`floating-msg` and `mobile-cta` appear twice each — once in CSS, once in HTML — treat `2` as pass for those two).
+
+Open in browser: contact section shows the 5 CTA buttons and map placeholder; a round "Написать" button floats bottom-right at all widths; footer renders 3 columns collapsing to 1 on mobile. Resize under 700px and confirm a black sticky bar with a "Записаться" button appears fixed to the bottom.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add index.html
+git commit -m "Add contact/booking section, floating CTA, and footer"
+```
+
+---
+
+### Task 9: Final cleanup and full cross-device QA
+
+**Files:**
+- Modify: `index.html`
+
+**Interfaces:**
+- Consumes: everything from Tasks 1–8.
+- Produces: final shipped file — removes the now-empty marker comments.
+
+- [ ] **Step 1: Remove leftover markers**
+
+Confirm both markers are now unused (all real content already sits above them) and delete the two literal lines:
+
+```html
+<!-- SECTIONS -->
+```
+and
+```js
+  <!-- SECTION SCRIPTS -->
+```
+
+- [ ] **Step 2: Verify markers are gone and structure is intact**
+
+```bash
+grep -c '<!-- SECTIONS -->' index.html
+grep -c '<!-- SECTION SCRIPTS -->' index.html
+```
+Expected: both print `0`.
+
+```bash
+for id in hero about why how services wet comfort gallery reviews faq contact footer; do
+  grep -q "id=\"$id\"" index.html && echo "$id: OK" || echo "$id: MISSING"
+done
+```
+Expected: all 12 lines print `OK`.
+
+- [ ] **Step 3: Full manual QA pass**
+
+Run: `open index.html`. Walk through, at desktop width (>1200px), tablet width (~800px), and mobile width (~375px, via DevTools device toolbar):
+
+1. Nav links scroll smoothly to each section; burger menu works on mobile/tablet.
+2. Every section fades/slides in on scroll (no section stuck invisible — if one never appears, its `.reveal` element may be positioned so it's already past the viewport threshold on load; that's expected only for `#hero`, which should be visible immediately since it's above the fold at page load — confirm hero content is visible without scrolling).
+3. Gallery filters correctly show/hide items for every one of the 6 filter buttons.
+4. FAQ accordion opens one item at a time.
+5. All placeholder plates read clearly on both dark and light backgrounds (no low-contrast text).
+6. Floating messenger button and (on mobile) the sticky CTA bar stay fixed while scrolling and don't overlap footer content awkwardly.
+7. No console errors in DevTools at any width.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add index.html
+git commit -m "Remove build markers and finalize relaunch landing page"
+```
+
+---
+
+## Post-plan note
+
+This plan does not push to `origin` or open a PR — confirm with the user whether/when to push `main` and `archive` to the remote once QA (Task 9) passes.
