@@ -226,6 +226,45 @@
     .reviews-grid{grid-template-columns:1fr;}
   }
 
+  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
+  .contact-info p{margin-bottom:20px; max-width:440px;}
+  .contact-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:8px;}
+  .map-plate{aspect-ratio:4/3;}
+
+  .floating-msg{
+    position:fixed; right:24px; bottom:24px; z-index:90;
+    width:56px; height:56px; border-radius:50%;
+    background:var(--black); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; text-align:center; letter-spacing:0.02em;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    transition:transform .3s ease;
+  }
+  .floating-msg:hover{transform:scale(1.08);}
+
+  .mobile-cta{display:none;}
+
+  #footer{background:var(--black); color:rgba(255,255,255,0.8); padding:64px 0 28px;}
+  .footer-grid{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; margin-bottom:40px;}
+  .footer-logo{color:var(--white); font-weight:800; letter-spacing:0.08em; margin-bottom:16px; display:block;}
+  .footer-desc{font-size:13px; max-width:320px;}
+  .footer-col h4{font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--silver); margin-bottom:16px;}
+  .footer-col ul li{margin-bottom:10px; font-size:13px;}
+  .footer-bottom{border-top:1px solid var(--line); padding-top:24px; font-size:12px; color:rgba(255,255,255,0.45);}
+
+  @media (max-width:900px){
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr; gap:28px;}
+  }
+  @media (max-width:700px){
+    .mobile-cta{
+      display:flex; position:fixed; left:0; right:0; bottom:0; z-index:95;
+      background:var(--black); padding:14px 20px;
+    }
+    .mobile-cta a{flex:1; justify-content:center;}
+    body{padding-bottom:70px;}
+  }
+
   /* === SECTION STYLES === */
 </style>
 </head>
@@ -465,11 +504,66 @@
     </div>
   </div>
 </section>
+<section id="contact" class="light">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <span class="section-label">Контакты и запись</span>
+      <h2>Записаться на ресницы</h2>
+      <p>Принимаю в самом центре Сочи: ул. Московская 19, 4 этаж, кабинет 401, напротив Александрии.</p>
+      <p>Работаю каждый день с 10:00 до 20:00.</p>
+      <p>Записаться можно в Instagram, Telegram, WhatsApp, MAX, по звонку или SMS.</p>
+      <div class="contact-actions">
+        <!-- заменить href на реальный профиль Instagram -->
+        <a href="#" class="btn dark">Instagram</a>
+        <!-- заменить href на реальную ссылку Telegram -->
+        <a href="#" class="btn dark">Telegram</a>
+        <!-- заменить href на реальную ссылку WhatsApp -->
+        <a href="#" class="btn dark">WhatsApp</a>
+        <!-- заменить href на tel:+7... после уточнения номера -->
+        <a href="#" class="btn dark">Позвонить</a>
+        <!-- заменить href на sms:+7... после уточнения номера -->
+        <a href="#" class="btn dark">Написать SMS</a>
+      </div>
+    </div>
+    <div class="plate on-light map-plate reveal">Здесь будет карта с адресом: Сочи, ул. Московская 19</div>
+  </div>
+</section>
 <!-- SECTIONS -->
 </main>
 
 <footer id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <span class="footer-logo">MR. LASH BOSS</span>
+        <p class="footer-desc">Mr. Lash Boss — наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, аккуратная работа и комфортная атмосфера.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Меню</h4>
+        <ul>
+          <li><a href="#about">О мастере</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#gallery">Работы</a></li>
+          <li><a href="#reviews">Отзывы</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <ul>
+          <li>Сочи, ул. Московская 19, 4 этаж, каб. 401</li>
+          <li>Ежедневно 10:00–20:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Mr. Lash Boss. Все права защищены.</div>
+  </div>
 </footer>
+<!-- заменить href на реальную ссылку WhatsApp/Telegram -->
+<a href="#" class="floating-msg">Написать</a>
+<div class="mobile-cta">
+  <a href="#contact" class="btn light silver">Записаться</a>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
