@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Наращивание ресниц в Сочи — Mr. Lash Boss</title>
-<meta name="description" content="Наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, классика, объемы, мокрый эффект, LED-технология. Мастер Олег / Mr. Lash Boss.">
+<title>Наращивание ресниц в Сочи — Mr. Lash Boss</title>
+<meta name="description" content="Наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, классика, объемы, мокрый эффект, LED-технология. Мастер Олег / Mr. Lash Boss.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
@@ -135,19 +135,23 @@
   }
 
   .marquee{
-    overflow:hidden; white-space:nowrap; background:var(--off);
-    border-bottom:1px solid var(--line-dark);
-    padding:16px 0;
+    overflow:hidden; white-space:nowrap; background:var(--black);
+    padding:22px 0;
+    -webkit-mask-image:linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    mask-image:linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
   }
   .marquee-track{
-    display:inline-flex; align-items:center; gap:14px; width:max-content;
-    animation:marquee-scroll 26s linear infinite;
-    font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--black);
+    display:inline-flex; align-items:center; gap:36px; width:max-content;
+    animation:marquee-scroll 40s linear infinite;
+    font-size:13px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.85);
   }
-  .marquee-track .dot{color:var(--silver); font-weight:400;}
+  .marquee-track .dot{
+    width:5px; height:5px; border-radius:50%; background:var(--silver);
+    display:inline-block; flex-shrink:0;
+  }
   @keyframes marquee-scroll{
     from{transform:translateX(0);}
-    to{transform:translateX(-50%);}
+    to{transform:translateX(-33.3333%);}
   }
   @media (prefers-reduced-motion: reduce){
     .marquee-track{animation:none;}
@@ -161,27 +165,30 @@
   .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
   .card{
     position:relative; overflow:hidden;
-    padding:32px 28px; background:var(--white); border:1px solid var(--line-dark);
+    padding:36px 28px; background:#141414; color:var(--white);
     transition:transform .35s ease, box-shadow .35s ease;
   }
+  .card-grid > .card:nth-child(3n+2){background:linear-gradient(135deg, #161616, #2c2c2c);}
+  .card-grid > .card:nth-child(3n+3){background:linear-gradient(150deg, #0e0e0e, #232323 65%, rgba(201,205,210,0.22));}
   .card::before{
     content:""; position:absolute; inset:0;
-    background:linear-gradient(135deg, rgba(201,205,210,0.22), rgba(10,10,10,0.02));
+    background:linear-gradient(135deg, rgba(201,205,210,0.16), rgba(255,255,255,0));
     opacity:0; transition:opacity .35s ease; pointer-events:none;
   }
-  .card:hover{transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.08);}
+  .card:hover{transform:translateY(-6px); box-shadow:0 20px 44px rgba(0,0,0,0.28);}
   .card:hover::before{opacity:1;}
   .card > *{position:relative; z-index:1;}
   .card-icon{
-    width:44px; height:44px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
-    margin-bottom:18px;
-    background:linear-gradient(135deg, var(--black), var(--silver));
+    width:36px; height:36px;
+    margin-bottom:20px;
     color:var(--white);
+    transition:color .3s ease;
   }
-  .card-icon svg{width:20px; height:20px;}
-  .card h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em;}
-  .card p{font-size:14px; color:var(--grey);}
+  .card-icon svg{width:36px; height:36px;}
+  .card:hover .card-icon{color:var(--silver);}
+  .card h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em; color:var(--white);}
+  .card p{font-size:14px; color:rgba(255,255,255,0.68);}
 
   @media (max-width:900px){
     .about-grid{grid-template-columns:1fr;}
@@ -215,9 +222,14 @@
   .wet-plate{aspect-ratio:3/4;}
   .wet-list{display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; margin-bottom:32px;}
   .wet-list li{font-size:14px; color:rgba(255,255,255,0.75); padding-left:18px; position:relative;}
-  .wet-list li::before{content:"—"; position:absolute; left:0; color:var(--silver);}
+  .wet-list li::before{
+    content:""; position:absolute; left:0; top:8px;
+    width:6px; height:6px; border-radius:50%; background:var(--silver);
+  }
 
-  .comfort-grid .card{background:var(--off); border-color:var(--line-dark);}
+  @media (min-width:701px){
+    .cta-center{display:flex; width:max-content; margin-left:auto; margin-right:auto;}
+  }
 
   @media (max-width:900px){
     .wet-plates{grid-template-columns:1fr 1fr;}
@@ -333,8 +345,8 @@
   <div class="wrap hero-grid">
     <div class="reveal">
       <span class="section-label">Олег / Mr. Lash Boss · Сочи, ул. Московская 19</span>
-      <h1 class="hero-title">Красивый взгляд начинается с ресниц</h1>
-      <p class="hero-sub">Наращивание ресниц в центре Сочи — от нежной классики до дерзкого мокрого эффекта, с индивидуальным подбором под вашу внешность и настроение. Аккуратно, выразительно, без шаблонов.</p>
+      <h1 class="hero-title">Красивый взгляд начинается с ресниц</h1>
+      <p class="hero-sub">Наращивание ресниц в центре Сочи — от нежной классики до дерзкого мокрого эффекта, с индивидуальным подбором под вашу внешность и настроение. Аккуратно, выразительно, без шаблонов.</p>
       <div class="hero-actions">
         <a href="#contact" class="btn light silver">Записаться</a>
         <a href="#gallery" class="btn ghost">Посмотреть работы</a>
@@ -345,8 +357,9 @@
 </section>
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Классика</span><span class="dot">·</span><span>1,5D</span><span class="dot">·</span><span>2D</span><span class="dot">·</span><span>Мокрый эффект</span><span class="dot">·</span><span>2,5D</span><span class="dot">·</span><span>3D</span><span class="dot">·</span><span>Цветные ресницы</span><span class="dot">·</span><span>Индивидуальный подбор</span><span class="dot">·</span><span>Mr. Lash Boss</span><span class="dot">·</span><span>Сочи</span><span class="dot">·</span>
-    <span>Классика</span><span class="dot">·</span><span>1,5D</span><span class="dot">·</span><span>2D</span><span class="dot">·</span><span>Мокрый эффект</span><span class="dot">·</span><span>2,5D</span><span class="dot">·</span><span>3D</span><span class="dot">·</span><span>Цветные ресницы</span><span class="dot">·</span><span>Индивидуальный подбор</span><span class="dot">·</span><span>Mr. Lash Boss</span><span class="dot">·</span><span>Сочи</span><span class="dot">·</span>
+    <span>Классика</span><span class="dot"></span><span>1,5D</span><span class="dot"></span><span>2D</span><span class="dot"></span><span>Мокрый эффект</span><span class="dot"></span><span>2,5D</span><span class="dot"></span><span>3D</span><span class="dot"></span><span>Цветные ресницы</span><span class="dot"></span><span>Индивидуальный подбор</span><span class="dot"></span><span>Mr. Lash Boss</span><span class="dot"></span><span>Сочи</span><span class="dot"></span>
+    <span>Классика</span><span class="dot"></span><span>1,5D</span><span class="dot"></span><span>2D</span><span class="dot"></span><span>Мокрый эффект</span><span class="dot"></span><span>2,5D</span><span class="dot"></span><span>3D</span><span class="dot"></span><span>Цветные ресницы</span><span class="dot"></span><span>Индивидуальный подбор</span><span class="dot"></span><span>Mr. Lash Boss</span><span class="dot"></span><span>Сочи</span><span class="dot"></span>
+    <span>Классика</span><span class="dot"></span><span>1,5D</span><span class="dot"></span><span>2D</span><span class="dot"></span><span>Мокрый эффект</span><span class="dot"></span><span>2,5D</span><span class="dot"></span><span>3D</span><span class="dot"></span><span>Цветные ресницы</span><span class="dot"></span><span>Индивидуальный подбор</span><span class="dot"></span><span>Mr. Lash Boss</span><span class="dot"></span><span>Сочи</span><span class="dot"></span>
   </div>
 </div>
 <section id="about" class="light">
@@ -355,37 +368,37 @@
     <div class="about-text reveal">
       <span class="section-label">О мастере</span>
       <h2>Олег, Mr. Lash Boss</h2>
-      <p>Я занимаюсь наращиванием ресниц уже 5 лет и больше всего люблю в этой профессии возможность создавать образ, который действительно подходит человеку.</p>
-      <p>Для меня ресницы — это не просто длина и объем. Это настроение, характер, стиль и то, как человек хочет себя чувствовать.</p>
-      <p>Я работаю один, внимательно отношусь к каждой клиентке и не делаю работу «на потоке». Лучше потрачу больше времени, но сделаю результат аккуратным, красивым и носким.</p>
-      <span class="about-badge">5 лет в профессии</span>
+      <p>Я занимаюсь наращиванием ресниц уже 5 лет и больше всего люблю в этой профессии возможность создавать образ, который действительно подходит человеку.</p>
+      <p>Для меня ресницы — это не просто длина и объем. Это настроение, характер, стиль и то, как человек хочет себя чувствовать.</p>
+      <p>Я работаю один, внимательно отношусь к каждой клиентке и не делаю работу «на потоке». Лучше потрачу больше времени, но сделаю результат аккуратным, красивым и носким.</p>
+      <span class="about-badge">5 лет в профессии</span>
     </div>
   </div>
 </section>
 <section id="why" class="off">
   <div class="wrap">
     <span class="section-label reveal">Почему выбирают Олега</span>
-    <h2 class="reveal">Почему ко мне приезжают даже издалека</h2>
+    <h2 class="reveal">Почему ко мне приезжают даже издалека</h2>
     <div class="card-grid">
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
         <h3>Индивидуальный подбор</h3>
-        <p>Подбираю эффект под форму глаз, посадку, брови, цвет волос, натуральные ресницы и общий стиль.</p>
+        <p>Подбираю эффект под форму глаз, посадку, брови, цвет волос, натуральные ресницы и общий стиль.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3>Мужской взгляд на красоту</h3>
-        <p>Помогаю посмотреть на образ со стороны и выбрать вариант, который действительно подчеркивает внешность.</p>
+        <h3>Мужской взгляд на красоту</h3>
+        <p>Помогаю посмотреть на образ со стороны и выбрать вариант, который действительно подчеркивает внешность.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.6L19 10.4l-5.2 1.8L12 18l-1.8-5.8L5 10.4l5.2-1.8L12 3Z"/></svg></div>
-        <h3>Не работаю на потоке</h3>
-        <p>Каждая клиентка — отдельный образ, а не шаблонная схема.</p>
+        <h3>Не работаю на потоке</h3>
+        <p>Каждая клиентка — отдельный образ, а не шаблонная схема.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg></div>
         <h3>Аккуратный результат</h3>
-        <p>Не делаю тяжелые и неэстетичные работы. Даже яркий эффект должен выглядеть стильно.</p>
+        <p>Не делаю тяжелые и неэстетичные работы. Даже яркий эффект должен выглядеть стильно.</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg></div>
@@ -403,12 +416,12 @@
 <section id="how" class="light">
   <div class="wrap">
     <span class="section-label reveal">Как подбираются ресницы</span>
-    <h2 class="reveal">Вам не нужно разбираться в объемах — я помогу выбрать</h2>
-    <p class="reveal" style="max-width:640px;">Перед началом работы я уточняю, какой образ вы хотите получить: нежный, естественный, яркий, дерзкий или более выразительный.</p>
-    <p class="reveal" style="max-width:640px; margin-top:12px;">Если вы не знаете, что выбрать, я помогу. Смотрю на форму глаз, посадку, длину и густоту натуральных ресниц, цвет волос, брови и общий стиль. После этого предлагаю вариант, который будет смотреться гармонично именно на вас. Вам достаточно прийти и сказать, какой эффект хочется почувствовать. Остальное я беру на себя.</p>
+    <h2 class="reveal">Вам не нужно разбираться в объемах — я помогу выбрать</h2>
+    <p class="reveal" style="max-width:640px;">Перед началом работы я уточняю, какой образ вы хотите получить: нежный, естественный, яркий, дерзкий или более выразительный.</p>
+    <p class="reveal" style="max-width:640px; margin-top:12px;">Если вы не знаете, что выбрать, я помогу. Смотрю на форму глаз, посадку, длину и густоту натуральных ресниц, цвет волос, брови и общий стиль. После этого предлагаю вариант, который будет смотреться гармонично именно на вас. Вам достаточно прийти и сказать, какой эффект хочется почувствовать. Остальное я беру на себя.</p>
     <div class="steps-grid">
       <div class="step reveal"><span class="step-num">01</span><p>Обсуждаем желаемый образ</p></div>
-      <div class="step reveal"><span class="step-num">02</span><p>Анализирую внешность и натуральные ресницы</p></div>
+      <div class="step reveal"><span class="step-num">02</span><p>Анализирую внешность и натуральные ресницы</p></div>
       <div class="step reveal"><span class="step-num">03</span><p>Предлагаю подходящий эффект</p></div>
       <div class="step reveal"><span class="step-num">04</span><p>Делаю аккуратное наращивание</p></div>
     </div>
@@ -416,8 +429,8 @@
 </section>
 <section id="services" class="off">
   <div class="wrap">
-    <span class="section-label reveal">Услуги и цены</span>
-    <h2 class="reveal">Услуги и цены</h2>
+    <span class="section-label reveal">Услуги и цены</span>
+    <h2 class="reveal">Услуги и цены</h2>
     <p class="price-note reveal">Цены предварительные, актуальность уточняйте при записи.</p>
     <div class="price-grid">
       <div class="price-row reveal"><span class="name">Лучи</span><span class="value">2 400 ₽</span></div>
@@ -430,43 +443,43 @@
       <div class="price-row reveal"><span class="name">Нижние ресницы</span><span class="value">1 000 ₽</span></div>
       <div class="price-row reveal"><span class="name">Снятие работы другого мастера</span><span class="value">200 ₽</span></div>
     </div>
-    <p class="price-extra reveal">Цветные акценты, лучи и нестандартные детали обсуждаются индивидуально. Если хочется чего-то необычного — подберем аккуратно и со вкусом.</p>
-    <a href="#contact" class="btn dark reveal">Записаться на процедуру</a>
+    <p class="price-extra reveal">Цветные акценты, лучи и нестандартные детали обсуждаются индивидуально. Если хочется чего-то необычного — подберем аккуратно и со вкусом.</p>
+    <a href="#contact" class="btn dark reveal cta-center">Записаться на процедуру</a>
   </div>
 </section>
 <section id="wet" class="dark">
   <div class="wrap">
     <span class="section-label reveal">Акцент</span>
     <h2 class="reveal">Мокрый эффект — любимая техника мастера</h2>
-    <p class="reveal" style="max-width:640px; color:rgba(255,255,255,0.75);">Мокрый эффект можно сделать очень разным: нежным и аккуратным, более заметным или дерзким. Он красиво подчеркивает взгляд, выглядит современно и хорошо адаптируется под разные стили — от мягкого повседневного образа до яркого акцента.</p>
+    <p class="reveal" style="max-width:640px; color:rgba(255,255,255,0.75);">Мокрый эффект можно сделать очень разным: нежным и аккуратным, более заметным или дерзким. Он красиво подчеркивает взгляд, выглядит современно и хорошо адаптируется под разные стили — от мягкого повседневного образа до яркого акцента.</p>
     <ul class="wet-list" style="margin-top:28px;">
       <li class="reveal">Если хочется более выразительный взгляд</li>
       <li class="reveal">Если надоели стандартные варианты</li>
-      <li class="reveal">Если хочется современный и стильный эффект</li>
-      <li class="reveal">Если нужен образ с характером</li>
+      <li class="reveal">Если хочется современный и стильный эффект</li>
+      <li class="reveal">Если нужен образ с характером</li>
     </ul>
     <div class="wet-plates">
       <div class="plate on-dark wet-plate reveal">Мокрый эффект — нежный вариант</div>
       <div class="plate on-dark wet-plate reveal">Мокрый эффект — выразительный вариант</div>
       <div class="plate on-dark wet-plate reveal">Мокрый эффект — дерзкий вариант</div>
     </div>
-    <a href="#contact" class="btn light silver reveal">Хочу мокрый эффект</a>
+    <a href="#contact" class="btn light silver reveal cta-center">Хочу мокрый эффект</a>
   </div>
 </section>
 <section id="comfort" class="light">
   <div class="wrap">
-    <span class="section-label reveal">Комфорт во время процедуры</span>
-    <h2 class="reveal">Процедура, на которой можно быть собой</h2>
-    <p class="reveal" style="max-width:640px;">У меня можно расслабиться, поболтать, посмеяться, послушать музыку или просто отдохнуть. Процедура обычно длится от 1,5 до 2,5 часов, в сложных случаях — до 3 часов.</p>
-    <p class="reveal" style="max-width:640px; margin-top:12px;">Я сам позабочусь о комфорте: включу кондиционер, предложу воду, плед, сладости и музыку. Можно прийти с подругой, ребенком или собакой — главное, чтобы вам было спокойно и удобно.</p>
+    <span class="section-label reveal">Комфорт во время процедуры</span>
+    <h2 class="reveal">Процедура, на которой можно быть собой</h2>
+    <p class="reveal" style="max-width:640px;">У меня можно расслабиться, поболтать, посмеяться, послушать музыку или просто отдохнуть. Процедура обычно длится от 1,5 до 2,5 часов, в сложных случаях — до 3 часов.</p>
+    <p class="reveal" style="max-width:640px; margin-top:12px;">Я сам позабочусь о комфорте: включу кондиционер, предложу воду, плед, сладости и музыку. Можно прийти с подругой, ребенком или собакой — главное, чтобы вам было спокойно и удобно.</p>
     <div class="card-grid comfort-grid">
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11v9a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V4Z"/><path d="M16 7h2a2.5 2.5 0 0 1 0 5h-2"/></svg></div>
-        <p>Вода и сладости</p>
+        <p>Вода и сладости</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4 7l16 10M20 7L4 17"/></svg></div>
-        <p>Плед и кондиционер</p>
+        <p>Плед и кондиционер</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></div>
@@ -474,11 +487,11 @@
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6M14 20c0-2.5 1.8-4.5 4-4.5s4 2 4 4.5"/></svg></div>
-        <p>Можно прийти с подругой</p>
+        <p>Можно прийти с подругой</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="9" r="1.5"/><circle cx="12" cy="6.5" r="1.5"/><circle cx="17" cy="9" r="1.5"/><path d="M12 12c-3.5 0-5.5 2.4-5.5 4.8 0 1.8 1.5 2.7 3 2.2 1-.3 1.6-.9 2.5-.9s1.5.6 2.5.9c1.5.5 3-.4 3-2.2 0-2.4-2-4.8-5.5-4.8Z"/></svg></div>
-        <p>Можно с ребенком или собакой</p>
+        <p>Можно с ребенком или собакой</p>
       </div>
       <div class="card reveal">
         <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5s1.3 2 3.5 2 3.5-2 3.5-2M8.5 9.5h.01M15.5 9.5h.01"/></svg></div>
@@ -521,50 +534,50 @@
     <div class="reviews-grid">
       <div class="review-card reveal">
         <div class="avatar">скрин отзыва</div>
-        <p>«Очень понравился подход. Олег помог выбрать эффект, который подошел именно мне. Ресницы выглядят аккуратно и красиво».</p>
+        <p>«Очень понравился подход. Олег помог выбрать эффект, который подошел именно мне. Ресницы выглядят аккуратно и красиво».</p>
       </div>
       <div class="review-card reveal">
         <div class="avatar">скрин отзыва</div>
-        <p>«Пришла за ресницами, а получила еще и прекрасную атмосферу. Было комфортно, весело и спокойно».</p>
+        <p>«Пришла за ресницами, а получила еще и прекрасную атмосферу. Было комфортно, весело и спокойно».</p>
       </div>
       <div class="review-card reveal">
         <div class="avatar">скрин отзыва</div>
-        <p>«Ресницы носились очень долго. Видно, что мастер действительно любит свою работу и делает все внимательно».</p>
+        <p>«Ресницы носились очень долго. Видно, что мастер действительно любит свою работу и делает все внимательно».</p>
       </div>
     </div>
   </div>
 </section>
 <section id="faq" class="off">
   <div class="wrap">
-    <span class="section-label reveal">Вопросы и ответы</span>
-    <h2 class="reveal">Вопросы и ответы</h2>
+    <span class="section-label reveal">Вопросы и ответы</span>
+    <h2 class="reveal">Вопросы и ответы</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">Сколько длится процедура?<span class="plus">+</span></button>
         <div class="faq-a"><p>Обычно от 1,5 до 2,5 часов. В сложных случаях процедура может занять до 3 часов.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
-        <div class="faq-a"><p>Это нормально. Я помогу подобрать вариант под ваш образ, форму глаз, натуральные ресницы и стиль.</p></div>
+        <button class="faq-q" aria-expanded="false">Что делать, если я не знаю, какой эффект хочу?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Это нормально. Я помогу подобрать вариант под ваш образ, форму глаз, натуральные ресницы и стиль.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли сделать натуральный эффект?<span class="plus">+</span></button>
         <div class="faq-a"><p>Да. Можно сделать аккуратную классику, мягкий объем или более нежный вариант мокрого эффекта.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
-        <div class="faq-a"><p>Да. Для более дерзкого и выразительного образа чаще всего рекомендую мокрый эффект.</p></div>
+        <button class="faq-q" aria-expanded="false">Можно ли сделать яркий эффект?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Да. Для более дерзкого и выразительного образа чаще всего рекомендую мокрый эффект.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-q" aria-expanded="false">Сколько носятся ресницы?<span class="plus">+</span></button>
-        <div class="faq-a"><p>У многих клиенток ресницы держатся 1,5–2 месяца. Точная носка зависит от ухода, особенностей кожи, ресниц и образа жизни.</p></div>
+        <div class="faq-a"><p>У многих клиенток ресницы держатся 1,5–2 месяца. Точная носка зависит от ухода, особенностей кожи, ресниц и образа жизни.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
-        <div class="faq-a"><p>Можно, но баня и сауна могут ухудшить носку ресниц.</p></div>
+        <button class="faq-q" aria-expanded="false">Можно ли ходить в баню или сауну?<span class="plus">+</span></button>
+        <div class="faq-a"><p>Можно, но баня и сауна могут ухудшить носку ресниц.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
+        <button class="faq-q" aria-expanded="false">Можно ли прийти с подругой, ребенком или собакой?<span class="plus">+</span></button>
         <div class="faq-a"><p>Да, можно. Главное — заранее предупредить.</p></div>
       </div>
       <div class="faq-item reveal">
@@ -577,24 +590,23 @@
 <section id="contact" class="light">
   <div class="wrap contact-grid">
     <div class="contact-info reveal">
-      <span class="section-label">Контакты и запись</span>
-      <h2>Записаться на ресницы</h2>
-      <p>Принимаю в самом центре Сочи: ул. Московская 19, 4 этаж, кабинет 401, напротив Александрии.</p>
+      <span class="section-label">Контакты и запись</span>
+      <h2>Записаться на ресницы</h2>
+      <p>Принимаю в самом центре Сочи: ул. Московская 19, 4 этаж, кабинет 401, напротив Александрии.</p>
       <p>Работаю каждый день с 10:00 до 20:00.</p>
-      <p>Быстрее всего — через кнопку ниже. Также на связи в Instagram, Telegram, WhatsApp и по телефону.</p>
       <div class="contact-actions">
-        <!-- заменить href на ссылку онлайн-записи (Dikidi) -->
+        <!-- заменить href на ссылку онлайн-записи (Dikidi) -->
         <a href="#" class="btn dark contact-cta">Записаться онлайн</a>
         <div class="contact-icons">
-          <!-- заменить href на реальный профиль Instagram -->
+          <!-- заменить href на реальный профиль Instagram -->
           <a href="#" class="icon-btn" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg>
           </a>
-          <!-- заменить href на реальную ссылку Telegram -->
+          <!-- заменить href на реальную ссылку Telegram -->
           <a href="#" class="icon-btn" aria-label="Telegram">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
           </a>
-          <!-- заменить href на реальную ссылку WhatsApp -->
+          <!-- заменить href на реальную ссылку WhatsApp -->
           <a href="#" class="icon-btn" aria-label="WhatsApp">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.4-4.2A8 8 0 1 1 9 19.5L4 20Z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5"/></svg>
           </a>
@@ -606,7 +618,7 @@
       </div>
     </div>
     <div class="map-embed reveal">
-      <iframe src="https://yandex.ru/map-widget/v1/?text=Сочи,%20улица%20Московская,%2019&z=17" width="100%" height="100%" loading="lazy" title="Mr. Lash Boss на карте — Сочи, ул. Московская 19"></iframe>
+      <iframe src="https://yandex.ru/map-widget/v1/?text=Сочи,%20улица%20Московская,%2019&z=17" width="100%" height="100%" loading="lazy" title="Mr. Lash Boss на карте — Сочи, ул. Московская 19"></iframe>
     </div>
   </div>
 </section>
@@ -617,7 +629,7 @@
     <div class="footer-grid">
       <div>
         <span class="footer-logo">MR. LASH BOSS</span>
-        <p class="footer-desc">Mr. Lash Boss — наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, аккуратная работа и комфортная атмосфера.</p>
+        <p class="footer-desc">Mr. Lash Boss — наращивание ресниц в центре Сочи. Индивидуальный подбор под образ, аккуратная работа и комфортная атмосфера.</p>
       </div>
       <div class="footer-col">
         <h4>Меню</h4>
