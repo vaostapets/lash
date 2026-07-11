@@ -90,6 +90,7 @@
     background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
   }
   .plate.on-light{
+    color:rgba(0,0,0,0.6);
     background:linear-gradient(160deg, rgba(0,0,0,0.035), rgba(0,0,0,0));
   }
 
@@ -263,9 +264,8 @@
     }
     .mobile-cta a{flex:1; justify-content:center;}
     body{padding-bottom:70px;}
+    .floating-msg{bottom:86px;}
   }
-
-  /* === SECTION STYLES === */
 </style>
 </head>
 <body>
@@ -528,7 +528,6 @@
     <div class="plate on-light map-plate reveal">Здесь будет карта с адресом: Сочи, ул. Московская 19</div>
   </div>
 </section>
-<!-- SECTIONS -->
 </main>
 
 <footer id="footer">
@@ -622,8 +621,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
-
-  <!-- SECTION SCRIPTS -->
 });
 </script>
 
