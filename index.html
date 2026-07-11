@@ -127,6 +127,27 @@
     .site-header.nav-open .site-nav ul{flex-direction:column; gap:20px;}
   }
 
+  .about-grid{display:grid; grid-template-columns:0.8fr 1.2fr; gap:64px; align-items:center;}
+  .about-plate{aspect-ratio:3/4;}
+  .about-badge{display:inline-block; margin-top:20px; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--grey); border-top:1px solid var(--line-dark); padding-top:12px;}
+  .about-text p{margin-bottom:16px; max-width:560px;}
+
+  .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
+  .card{
+    padding:32px 28px; background:var(--white); border:1px solid var(--line-dark);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  .card:hover{transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.08);}
+  .card h3{font-size:15px; margin-bottom:10px; letter-spacing:0.02em;}
+  .card p{font-size:14px; color:var(--grey);}
+
+  @media (max-width:900px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:700px){
+    .card-grid{grid-template-columns:1fr;}
+  }
+
   /* === SECTION STYLES === */
 </style>
 </head>
@@ -163,6 +184,51 @@
       </div>
     </div>
     <div class="plate on-dark hero-plate reveal">Фото мастера / работа крупным планом</div>
+  </div>
+</section>
+<section id="about" class="light">
+  <div class="wrap about-grid">
+    <div class="plate on-light about-plate reveal">Фото Олега</div>
+    <div class="about-text reveal">
+      <span class="section-label">О мастере</span>
+      <h2>Олег, Mr. Lash Boss</h2>
+      <p>Я занимаюсь наращиванием ресниц уже 5 лет и больше всего люблю в этой профессии возможность создавать образ, который действительно подходит человеку.</p>
+      <p>Для меня ресницы — это не просто длина и объем. Это настроение, характер, стиль и то, как человек хочет себя чувствовать.</p>
+      <p>Я работаю один, внимательно отношусь к каждой клиентке и не делаю работу «на потоке». Лучше потрачу больше времени, но сделаю результат аккуратным, красивым и носким.</p>
+      <span class="about-badge">5 лет в профессии</span>
+    </div>
+  </div>
+</section>
+<section id="why" class="off">
+  <div class="wrap">
+    <span class="section-label reveal">Почему выбирают Олега</span>
+    <h2 class="reveal">Почему ко мне приезжают даже издалека</h2>
+    <div class="card-grid">
+      <div class="card reveal">
+        <h3>Индивидуальный подбор</h3>
+        <p>Подбираю эффект под форму глаз, посадку, брови, цвет волос, натуральные ресницы и общий стиль.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Мужской взгляд на красоту</h3>
+        <p>Помогаю посмотреть на образ со стороны и выбрать вариант, который действительно подчеркивает внешность.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Не работаю на потоке</h3>
+        <p>Каждая клиентка — отдельный образ, а не шаблонная схема.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Аккуратный результат</h3>
+        <p>Не делаю тяжелые и неэстетичные работы. Даже яркий эффект должен выглядеть стильно.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Долгая носка</h3>
+        <p>Клиентки часто носят ресницы 1,5–2 месяца при правильном уходе.</p>
+      </div>
+      <div class="card reveal">
+        <h3>Комфортная атмосфера</h3>
+        <p>Можно общаться, смеяться, слушать музыку или просто отдыхать.</p>
+      </div>
+    </div>
   </div>
 </section>
 <!-- SECTIONS -->
