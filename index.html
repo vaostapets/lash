@@ -93,18 +93,78 @@
     background:linear-gradient(160deg, rgba(0,0,0,0.035), rgba(0,0,0,0));
   }
 
+  .site-header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,10,10,0.85); backdrop-filter:blur(6px);
+  }
+  .header-inner{display:flex; align-items:center; justify-content:space-between; height:84px;}
+  .logo{color:var(--white); font-weight:800; letter-spacing:0.08em; font-size:16px;}
+  .site-nav ul{display:flex; gap:32px;}
+  .site-nav a{color:var(--white); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; font-weight:600; transition:color .3s ease;}
+  .site-nav a:hover{color:var(--silver);}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px;}
+  .burger span{width:24px; height:2px; background:var(--white); transition:transform .3s ease, opacity .3s ease;}
+
+  #hero{
+    padding-top:180px; padding-bottom:120px;
+    background:var(--black); color:var(--white);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:center;}
+  .hero-title{font-size:clamp(32px,5vw,58px); line-height:1.08; margin-bottom:24px;}
+  .hero-sub{font-size:16px; color:rgba(255,255,255,0.72); max-width:480px; margin-bottom:32px;}
+  .hero-micro{font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--silver); margin-bottom:36px;}
+  .hero-actions{display:flex; gap:16px; flex-wrap:wrap;}
+  .hero-plate{aspect-ratio:4/5;}
+
+  @media (max-width:900px){
+    .site-nav{display:none;}
+    .burger{display:flex;}
+    .hero-grid{grid-template-columns:1fr; gap:40px;}
+    .site-header.nav-open .site-nav{
+      display:block; position:absolute; top:84px; left:0; right:0;
+      background:var(--black); padding:20px 28px;
+    }
+    .site-header.nav-open .site-nav ul{flex-direction:column; gap:20px;}
+  }
+
   /* === SECTION STYLES === */
 </style>
 </head>
 <body>
 
 <header class="site-header">
-  <div class="wrap">
+  <div class="wrap header-inner">
     <a href="#hero" class="logo">MR. LASH BOSS</a>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="#about">О мастере</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#gallery">Работы</a></li>
+        <li><a href="#reviews">Отзывы</a></li>
+        <li><a href="#contact">Контакты</a></li>
+      </ul>
+    </nav>
+    <button class="burger" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </header>
 
 <main>
+<section id="hero" class="dark">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="section-label">Олег / Mr. Lash Boss · Сочи, ул. Московская 19</span>
+      <h1 class="hero-title">Ресницы под ваш образ — от нежной классики до дерзкого мокрого эффекта</h1>
+      <p class="hero-sub">Наращивание ресниц в центре Сочи с индивидуальным подбором под вашу внешность, стиль и настроение. Аккуратно, выразительно и без шаблонов.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn light silver">Записаться</a>
+        <a href="#gallery" class="btn light">Посмотреть работы</a>
+      </div>
+    </div>
+    <div class="plate on-dark hero-plate reveal">Фото мастера / работа крупным планом</div>
+  </div>
+</section>
 <!-- SECTIONS -->
 </main>
 
@@ -113,7 +173,33 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-<!-- SECTION SCRIPTS -->
+  var burger = document.querySelector('.burger');
+  var header = document.querySelector('.site-header');
+  burger.addEventListener('click', function () {
+    var isOpen = header.classList.toggle('nav-open');
+    burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  document.querySelectorAll('.site-nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      header.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // === REVEAL ON SCROLL ===
+  var revealObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    revealObserver.observe(el);
+  });
+
+  <!-- SECTION SCRIPTS -->
 });
 </script>
 
