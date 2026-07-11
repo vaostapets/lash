@@ -168,6 +168,23 @@
     .price-grid{grid-template-columns:1fr;}
   }
 
+  .wet-plates{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin:36px 0;}
+  .wet-plate{aspect-ratio:3/4;}
+  .wet-list{display:grid; grid-template-columns:1fr 1fr; gap:12px 32px; margin-bottom:32px;}
+  .wet-list li{font-size:14px; color:rgba(255,255,255,0.75); padding-left:18px; position:relative;}
+  .wet-list li::before{content:"—"; position:absolute; left:0; color:var(--silver);}
+
+  .comfort-grid{grid-template-columns:repeat(3,1fr);}
+  .comfort-grid .card{background:var(--off); border-color:var(--line-dark);}
+
+  @media (max-width:900px){
+    .wet-plates{grid-template-columns:1fr 1fr;}
+    .wet-list{grid-template-columns:1fr;}
+  }
+  @media (max-width:700px){
+    .wet-plates{grid-template-columns:1fr;}
+  }
+
   /* === SECTION STYLES === */
 </style>
 </head>
@@ -283,6 +300,41 @@
     </div>
     <p class="price-extra reveal">Цветные акценты, лучи и нестандартные детали обсуждаются индивидуально. Если хочется чего-то необычного — подберем аккуратно и со вкусом.</p>
     <a href="#contact" class="btn dark reveal">Записаться на процедуру</a>
+  </div>
+</section>
+<section id="wet" class="dark">
+  <div class="wrap">
+    <span class="section-label reveal">Акцент</span>
+    <h2 class="reveal">Мокрый эффект — любимая техника мастера</h2>
+    <p class="reveal" style="max-width:640px; color:rgba(255,255,255,0.75);">Мокрый эффект можно сделать очень разным: нежным и аккуратным, более заметным или дерзким. Он красиво подчеркивает взгляд, выглядит современно и хорошо адаптируется под разные стили — от мягкого повседневного образа до яркого акцента.</p>
+    <ul class="wet-list" style="margin-top:28px;">
+      <li class="reveal">Если хочется более выразительный взгляд</li>
+      <li class="reveal">Если надоели стандартные варианты</li>
+      <li class="reveal">Если хочется современный и стильный эффект</li>
+      <li class="reveal">Если нужен образ с характером</li>
+    </ul>
+    <div class="wet-plates">
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — нежный вариант</div>
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — выразительный вариант</div>
+      <div class="plate on-dark wet-plate reveal">Мокрый эффект — дерзкий вариант</div>
+    </div>
+    <a href="#contact" class="btn light silver reveal">Хочу мокрый эффект</a>
+  </div>
+</section>
+<section id="comfort" class="light">
+  <div class="wrap">
+    <span class="section-label reveal">Комфорт во время процедуры</span>
+    <h2 class="reveal">Процедура, на которой можно быть собой</h2>
+    <p class="reveal" style="max-width:640px;">У меня можно расслабиться, поболтать, посмеяться, послушать музыку или просто отдохнуть. Процедура обычно длится от 1,5 до 2,5 часов, в сложных случаях — до 3 часов.</p>
+    <p class="reveal" style="max-width:640px; margin-top:12px;">Я сам позабочусь о комфорте: включу кондиционер, предложу воду, плед, сладости и музыку. Можно прийти с подругой, ребенком или собакой — главное, чтобы вам было спокойно и удобно.</p>
+    <div class="card-grid comfort-grid">
+      <div class="card reveal"><p>Вода и сладости</p></div>
+      <div class="card reveal"><p>Плед и кондиционер</p></div>
+      <div class="card reveal"><p>Можно включить свою музыку</p></div>
+      <div class="card reveal"><p>Можно прийти с подругой</p></div>
+      <div class="card reveal"><p>Можно с ребенком или собакой</p></div>
+      <div class="card reveal"><p>Живая, дружелюбная атмосфера</p></div>
+    </div>
   </div>
 </section>
 <!-- SECTIONS -->
